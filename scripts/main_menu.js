@@ -19,10 +19,12 @@ function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-function menu_loop() {
-    if(curcolor[0] > 255)
+function menu_loop(sid) {
+    if(curcolor[0] >= 255) {
+        clearInterval(sid);
         return;
-    
+    }
+
     curcolor[0] += 1;
     curcolor[1] += 1;
     curcolor[2] += 1;
