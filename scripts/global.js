@@ -17,7 +17,7 @@ class KeyControls{
 
     }
     changeState(e){
-        if(!this.keyList.includes(e.code))
+        if(this.keyList.includes(e.code))
         this.keys[e.code] = e.type == 'keydown' ? true : false
         console.log(this.keys);
     }
