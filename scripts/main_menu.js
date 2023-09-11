@@ -31,5 +31,5 @@ function menu_loop(sid) {
 
     screen.fillStyle = rgbToHex(curcolor[0], curcolor[1], curcolor[2]);
     screen.fillRect(0, 0, cumvas.width, cumvas.height);
-    screen.drawImage(ground, (cumvas.width - ground.width)/2, (cumvas.height - ground.height)/2, ground.width, ground.height);
+    screen.drawImage(ground, (cumvas.width - ground.width)/2, (cumvas.height - ground.height)/2, ground.width , ground.height);
 }
