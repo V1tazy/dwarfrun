@@ -1,7 +1,6 @@
 var cumvas = null;
 var screen = null;
 
-
 function menu_enter() {
     cumvas = document.getElementById("main");
     screen = cumvas.getContext("2d");
@@ -23,6 +22,11 @@ function rgbToHex(r, g, b) {
 function menu_loop(sid) {
     if(curcolor[0] >= 255) {
         clearInterval(sid);
+
+        // var btn = new Button("Hej!", "#00ff00", 100, 35);
+
+        // btn.draw(screen, 100, 100)
+
         return;
     }
 
