@@ -1,6 +1,8 @@
 var cumvas = null;
 var screen = null;
 var i = 0;
+var background = new Image();
+background.src = 'image/Background.png'
 
 function bar_enter() {
     cumvas = document.getElementById("main");
@@ -8,9 +10,7 @@ function bar_enter() {
 }
 
 function bar_loop() {
-    i += 20;
-    screen.fillStyle = "rgb(" + i + ",100,100)";
-    screen.fillRect(0, 0, 400, 400);
+    screen.drawImage(background, (cumvas.width - ground.width)/2, (cumvas.height - ground.height)/2, ground.width, ground.height);
 }
 
 function bar_destroy(){

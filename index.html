@@ -9,18 +9,25 @@
     <title>Dwarf Run</title>
 </head>
 <body style="margin: 0;">
-    <canvas id="main" style="margin: 0; overflow: hidden;"></canvas>    
+    <canvas id="main" style="margin: 0; overflow: hidden;"></canvas>
 </body>
 </html>
 
 <script>
+    var game_state = false;
     var main_id;
 
     global_init();
 
-    menu_enter();
-    
     main_id = setInterval(function() {
-        menu_loop(main_id);
+            if(game_state){
+                menu_enter();
+                menu_loop(main_id);
+            }
+            else{
+                bar_enter();
+                bar_loop(main_id);
+            }
     }, 30 / 1000);
+
 </script>
