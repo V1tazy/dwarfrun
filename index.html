@@ -4,6 +4,7 @@
 <html style="margin: 0;">
 <head>
     <script src="scripts/global.js"></script>
+    <script src="scripts/bar.js"></script>
     <script src="scripts/button.js"></script>
     <script src="scripts/main_menu.js"></script>
     <title>Dwarf Run</title>
@@ -19,8 +20,7 @@
 
     global_init();
 
-
-        main_id = setInterval(function() {
+    main_id = setInterval(function() {
             if(game_state){
                 menu_enter();
                 menu_loop(main_id);

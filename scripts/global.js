@@ -2,6 +2,7 @@ function global_init() {
     var cumvas = document.getElementById("main");
 
     new KeyControls;
+    
     cumvas.width = window.innerWidth;
     cumvas.height = window.innerHeight;
 }
@@ -16,9 +17,11 @@ class KeyControls{
         addEventListener('keyup', e => this.changeState(e));
 
     }
+
     changeState(e){
         if(this.keyList.includes(e.code))
-        this.keys[e.code] = e.type == 'keydown' ? true : false
+            this.keys[e.code] = e.type == 'keydown' ? true : false;
+        
         console.log(this.keys);
     }
 }
