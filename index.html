@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html style="margin: 0;">
 <head>
+    <meta charset="utf-8">   
     <script src="scripts/global.js"></script>
     <script src="scripts/bar.js"></script>
     <script src="scripts/button.js"></script>
@@ -21,7 +22,7 @@
     global_init();
 
     main_id = setInterval(function() {
-            if(game_state){
+            if(!game_state){
                 menu_enter();
                 menu_loop(main_id);
             }

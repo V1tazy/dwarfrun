@@ -2,7 +2,7 @@ var cumvas = null;
 var screen = null;
 var i = 0;
 var background = new Image();
-background.src = 'image/Background.png'
+background.src = 'image/background.png';
 
 function bar_enter() {
     cumvas = document.getElementById("main");

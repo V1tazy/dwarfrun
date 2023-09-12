@@ -1,6 +1,7 @@
 function global_init() {
     var cumvas = document.getElementById("main");
 
+    new MouseControls;
     new KeyControls;
     
     cumvas.width = window.innerWidth;
@@ -25,3 +26,23 @@ class KeyControls{
         console.log(this.keys);
     }
 }
+
+class MouseControls{
+    constructor( cumvas = document.getElementById('main')){
+        this.cumvas = cumvas;
+        
+        cumvas.addEventListener('click', e => this.changeState(e));
+
+        this.pos = {x: 0, y: 0};
+    }
+    changeState(e){
+        const rect = this.cumvas.getBoundingClientRect();
+
+        this.pos.x = e.clientX - rect.left;
+        this.pos.y = e.clientY - rect.top;
+
+        console.log(this.pos.x,  this.pos.y);
+    }
+}
+
+
