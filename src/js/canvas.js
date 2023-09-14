@@ -1,13 +1,14 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
+
 const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
 const gravity = 0.5;
 
 cumvas.width = window.innerWidth - 50;
 cumvas.height = window.innerHeight - 100;
-console.log(screen);
 
+console.log(screen);
 
 //классы всех объектов от игрока до платформ
 class Player{
@@ -165,13 +166,17 @@ function anim(){
 
 anim();
 
+var can_jump = true;
+
 addEventListener('keydown', ({keyCode}) =>{
     console.log(keyCode)
     switch(keyCode) {
         case 87:
-            console.log('вверх ' + player.vel.y)
-            if(player.vel.y <= 0)
-                player.vel.y = -5;
+            console.log('вверх')
+            if(can_jump) {
+                player.vel.y = -10;
+                can_jump = false;
+            }
             break;
 
         case 83:
@@ -195,8 +200,9 @@ addEventListener('keydown', ({keyCode}) =>{
 addEventListener('keyup', ({keyCode}) =>{
     console.log(keyCode)
     switch(keyCode){
-        case 87:
+        case 87: 
             console.log('Вверх действие завершено');
+            can_jump = true;
             break;
         case 83:
             console.log('down end');

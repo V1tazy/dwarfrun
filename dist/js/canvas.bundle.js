@@ -279,13 +279,17 @@ function anim() {
   }
 }
 anim();
+var can_jump = true;
 addEventListener('keydown', function (_ref) {
   var keyCode = _ref.keyCode;
   console.log(keyCode);
   switch (keyCode) {
     case 87:
-      console.log('вверх ' + player.vel.y);
-      if (player.vel.y <= 0) player.vel.y = -5;
+      console.log('вверх');
+      if (can_jump) {
+        player.vel.y = -10;
+        can_jump = false;
+      }
       break;
     case 83:
       console.log('вниз');
@@ -306,6 +310,7 @@ addEventListener('keyup', function (_ref2) {
   switch (keyCode) {
     case 87:
       console.log('Вверх действие завершено');
+      can_jump = true;
       break;
     case 83:
       console.log('down end');
