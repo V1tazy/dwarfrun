@@ -86,6 +86,32 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/image/BG1.png":
+/*!***************************!*\
+  !*** ./src/image/BG1.png ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "822c5ec560471ff7d172bcaf2e99ebd5.png");
+
+/***/ }),
+
+/***/ "./src/image/platform.png":
+/*!********************************!*\
+  !*** ./src/image/platform.png ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "c7d5c9ed44f78dc573b95eab26f6e08d.png");
+
+/***/ }),
+
 /***/ "./src/js/canvas.js":
 /*!**************************!*\
   !*** ./src/js/canvas.js ***!
@@ -95,114 +121,204 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/js/utils.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_utils__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _image_platform_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image/platform.png */ "./src/image/platform.png");
+/* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+var cumvas = document.querySelector('canvas');
+var ctx = cumvas.getContext('2d');
+var gravity = 0.5;
+cumvas.width = window.innerWidth - 50;
+cumvas.height = window.innerHeight - 100;
+console.log(screen);
 
-
-var canvas = document.querySelector('canvas');
-var c = canvas.getContext('2d');
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-var mouse = {
-  x: innerWidth / 2,
-  y: innerHeight / 2
-};
-var colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66']; // Event Listeners
-
-addEventListener('mousemove', function (event) {
-  mouse.x = event.clientX;
-  mouse.y = event.clientY;
-});
-addEventListener('resize', function () {
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-  init();
-}); // Objects
-
-var _Object = /*#__PURE__*/function () {
-  function Object(x, y, radius, color) {
-    _classCallCheck(this, Object);
-
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    this.color = color;
+//классы всех объектов от игрока до платформ
+var Player = /*#__PURE__*/function () {
+  function Player() {
+    _classCallCheck(this, Player);
+    this.pos = {
+      x: 100,
+      y: 100
+    };
+    this.vel = {
+      x: 0,
+      y: 1
+    };
+    this.width = 100;
+    this.height = 100;
   }
-
-  _createClass(Object, [{
+  _createClass(Player, [{
     key: "draw",
     value: function draw() {
-      c.beginPath();
-      c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-      c.fillStyle = this.color;
-      c.fill();
-      c.closePath();
+      ctx.fillStyle = 'red';
+      ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
     }
   }, {
     key: "update",
     value: function update() {
+      this.pos.y += this.vel.y;
+      this.pos.x += this.vel.x;
       this.draw();
+      if (this.pos.y + this.height + this.vel.y <= cumvas.height) {
+        this.vel.y += gravity;
+      } else {
+        this.vel.y = 0;
+      }
     }
   }]);
-
-  return Object;
-}(); // Implementation
-
-
-var objects;
-
-function init() {
-  objects = [];
-
-  for (var i = 0; i < 400; i++) {// objects.push()
+  return Player;
+}();
+var Platform = /*#__PURE__*/function () {
+  function Platform(x, y) {
+    _classCallCheck(this, Platform);
+    this.pos = {
+      x: x,
+      y: y
+    };
+    this.image = PlatformImage;
+    this.width = this.image.width;
+    this.height = this.image.height;
   }
-} // Animation Loop
-
-
-function animate() {
-  requestAnimationFrame(animate);
-  c.clearRect(0, 0, canvas.width, canvas.height);
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y); // objects.forEach(object => {
-  //  object.update()
-  // })
+  _createClass(Platform, [{
+    key: "draw",
+    value: function draw() {
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height);
+    }
+  }, {
+    key: "update",
+    value: function update() {}
+  }]);
+  return Platform;
+}();
+var GenObj = /*#__PURE__*/function () {
+  function GenObj(x, y, image) {
+    _classCallCheck(this, GenObj);
+    this.pos = {
+      x: x,
+      y: y,
+      image: backgr
+    };
+  }
+  _createClass(GenObj, [{
+    key: "draw",
+    value: function draw() {
+      ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height);
+    }
+  }]);
+  return GenObj;
+}();
+function createImage(imgSrc) {
+  var image = new Image();
+  image.src = imgSrc;
+  return image;
 }
-
-init();
-animate();
-
-/***/ }),
-
-/***/ "./src/js/utils.js":
-/*!*************************!*\
-  !*** ./src/js/utils.js ***!
-  \*************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-function randomIntFromRange(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function randomColor(colors) {
-  return colors[Math.floor(Math.random() * colors.length)];
-}
-
-function distance(x1, y1, x2, y2) {
-  var xDist = x2 - x1;
-  var yDist = y2 - y1;
-  return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
-}
-
-module.exports = {
-  randomIntFromRange: randomIntFromRange,
-  randomColor: randomColor,
-  distance: distance
+var PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
+var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var genobj = [new GenObj(-1, -1)];
+var player = new Player();
+var platform = [new Platform(-1, 750), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 750)];
+var keys = {
+  rigth: {
+    pressed: false
+  },
+  left: {
+    pressed: false
+  }
 };
+
+//отсчет до босс комнаты
+var scrolloff = 0;
+//запуск loop
+player.update();
+function anim() {
+  requestAnimationFrame(anim);
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+  genobj.forEach(function (genobj) {
+    genobj.draw();
+  });
+  platform.forEach(function (platform) {
+    platform.draw();
+  });
+  player.update();
+
+  // проверки управления, создание границ и не только
+  if (keys.rigth.pressed && player.pos.x < 400) {
+    player.vel.x = 5;
+  } else if (keys.left.pressed && player.pos.x > 100) {
+    player.vel.x = -5;
+  } else player.vel.x = 0;
+  if (keys.rigth.pressed) {
+    platform.forEach(function (platform) {
+      scrolloff += 5;
+      platform.pos.x -= 10;
+    });
+  } else if (keys.left.pressed) {
+    platform.forEach(function (platform) {
+      scrolloff -= 5;
+      platform.pos.x += 10;
+    });
+  }
+  console.log(scrolloff);
+
+  // проверка платформы
+  platform.forEach(function (platform) {
+    if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
+      player.vel.y = 0;
+    }
+  });
+  // win moment
+  if (scrolloff > 8000) {
+    console.log('bosstime');
+  }
+}
+anim();
+addEventListener('keydown', function (_ref) {
+  var keyCode = _ref.keyCode;
+  console.log(keyCode);
+  switch (keyCode) {
+    case 87:
+      console.log('вверх');
+      player.vel.y -= 10;
+      break;
+    case 83:
+      console.log('вниз');
+      break;
+    case 65:
+      console.log('влево');
+      keys.left.pressed = true;
+      break;
+    case 68:
+      console.log('вправо');
+      keys.rigth.pressed = true;
+      break;
+  }
+});
+addEventListener('keyup', function (_ref2) {
+  var keyCode = _ref2.keyCode;
+  console.log(keyCode);
+  switch (keyCode) {
+    case 87:
+      console.log('Вверх действие завершено');
+      break;
+    case 83:
+      console.log('down end');
+      break;
+    case 65:
+      console.log('left end');
+      keys.left.pressed = false;
+      break;
+    case 68:
+      console.log('right end');
+      keys.rigth.pressed = false;
+  }
+});
 
 /***/ })
 
