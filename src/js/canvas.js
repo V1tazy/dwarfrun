@@ -16,10 +16,12 @@ class Player{
             x: 100,
             y: 100,
         }
+
         this.vel = {
             x: 0,
             y: 1
         }
+        
         this.width = 100
         this.height = 100
     }
@@ -83,10 +85,13 @@ function createImage(imgSrc){
 const PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
 
-
 const genobj = [new GenObj(-1, -1)];
 const player = new Player();
-const platform = [new Platform(-1, 750), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 750)];
+const platform = [
+    new Platform(0, 450),
+    new Platform(PlatformImage.width - 80, 750),
+    new Platform(1200, 450)
+];
 
 
 const keys = {
@@ -164,8 +169,9 @@ addEventListener('keydown', ({keyCode}) =>{
     console.log(keyCode)
     switch(keyCode) {
         case 87:
-            console.log('вверх')
-            player.vel.y -= 10;
+            console.log('вверх ' + player.vel.y)
+            if(player.vel.y <= 0)
+                player.vel.y = -5;
             break;
 
         case 83:

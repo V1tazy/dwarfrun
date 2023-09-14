@@ -222,7 +222,7 @@ var PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__
 var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var genobj = [new GenObj(-1, -1)];
 var player = new Player();
-var platform = [new Platform(-1, 750), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 750)];
+var platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
 var keys = {
   rigth: {
     pressed: false
@@ -284,8 +284,8 @@ addEventListener('keydown', function (_ref) {
   console.log(keyCode);
   switch (keyCode) {
     case 87:
-      console.log('вверх');
-      player.vel.y -= 10;
+      console.log('вверх ' + player.vel.y);
+      if (player.vel.y <= 0) player.vel.y = -5;
       break;
     case 83:
       console.log('вниз');
