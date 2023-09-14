@@ -1,13 +1,14 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
+
 const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
 const gravity = 0.5;
 
 cumvas.width = window.innerWidth - 50;
 cumvas.height = window.innerHeight - 100;
-console.log(screen);
 
+console.log(screen);
 
 //классы всех объектов от игрока до платформ
 class Player{
@@ -16,10 +17,12 @@ class Player{
             x: 100,
             y: 100,
         }
+
         this.vel = {
             x: 0,
             y: 1
         }
+        
         this.width = 100
         this.height = 100
     }
@@ -83,10 +86,13 @@ function createImage(imgSrc){
 const PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
 
-
 const genobj = [new GenObj(-1, -1)];
 const player = new Player();
-const platform = [new Platform(-1, 750), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 750)];
+const platform = [
+    new Platform(0, 450),
+    new Platform(PlatformImage.width - 80, 750),
+    new Platform(1200, 450)
+];
 
 
 const keys = {
@@ -160,12 +166,17 @@ function anim(){
 
 anim();
 
+var can_jump = true;
+
 addEventListener('keydown', ({keyCode}) =>{
     console.log(keyCode)
     switch(keyCode) {
         case 87:
             console.log('вверх')
-            player.vel.y -= 10;
+            if(can_jump) {
+                player.vel.y = -10;
+                can_jump = false;
+            }
             break;
 
         case 83:
@@ -189,8 +200,9 @@ addEventListener('keydown', ({keyCode}) =>{
 addEventListener('keyup', ({keyCode}) =>{
     console.log(keyCode)
     switch(keyCode){
-        case 87:
+        case 87: 
             console.log('Вверх действие завершено');
+            can_jump = true;
             break;
         case 83:
             console.log('down end');

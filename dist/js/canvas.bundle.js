@@ -222,7 +222,7 @@ var PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__
 var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var genobj = [new GenObj(-1, -1)];
 var player = new Player();
-var platform = [new Platform(-1, 750), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 750)];
+var platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
 var keys = {
   rigth: {
     pressed: false
@@ -279,13 +279,17 @@ function anim() {
   }
 }
 anim();
+var can_jump = true;
 addEventListener('keydown', function (_ref) {
   var keyCode = _ref.keyCode;
   console.log(keyCode);
   switch (keyCode) {
     case 87:
       console.log('вверх');
-      player.vel.y -= 10;
+      if (can_jump) {
+        player.vel.y = -10;
+        can_jump = false;
+      }
       break;
     case 83:
       console.log('вниз');
@@ -306,6 +310,7 @@ addEventListener('keyup', function (_ref2) {
   switch (keyCode) {
     case 87:
       console.log('Вверх действие завершено');
+      can_jump = true;
       break;
     case 83:
       console.log('down end');
