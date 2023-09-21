@@ -99,7 +99,7 @@ class Platform{
 }
 
 class GenObj{
-  constructor(x, y, image){
+  constructor(x, y){
     this.pos = {
       x,
       y,
@@ -119,8 +119,6 @@ function createImage(imgSrc){
 
 let PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
-const Gr_Menu = createImage(gm)
-
 
 let genobj = [new GenObj(-1, -1)];
 let player = new Player();
@@ -167,6 +165,7 @@ function respawn(hp){
 
 
 function anim(){
+    if(player.hp >= 0){
     requestAnimationFrame(anim);
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, cumvas.width, cumvas.height);
@@ -219,9 +218,6 @@ function anim(){
     if(player.pos.y > cumvas.height){
         respawn(player.hp - 1);
         console.log(player.hp);
-        if(player.hp == 0){
-            gameOver = true;
-        }
     }
 
     // проверка платформы
@@ -233,25 +229,27 @@ function anim(){
         ){
         player.vel.y = 0;
     }
-    })
+    })}
+    //Проиграли
+    else{
+        ctx.clearRect(0,0, cumvas.width, cumvas.height); 
+        console.log("Game Over");
+        ctx.fillStyle = 'White';
+        rect = ctx.fillRect(400, 200, cumvas.width/2, cumvas.height/2);
+        ctx.fillStyle = 'Blue';
+    }
 }
 
 ///Здесь начинается Веселуха для меню
 
-let gameStarted = true;
-let gameOver = false;
 let can_jump = true;
-
-function start_game(){
-    ctx.fillStyle = "blue";
-    ctx.fillRect(100,100,100,100);
-}
+let gameStarted = true;
 
 if(gameStarted){
     player.update(); 
     anim();
 
-addEventListener('keydown', ({keyCode}) =>{
+    addEventListener('keydown', ({keyCode}) =>{
     switch(keyCode) {
         case 87:
             console.log('вверх')
@@ -276,10 +274,10 @@ addEventListener('keydown', ({keyCode}) =>{
             break;
 
     }   
-})
+    })
 
 
-addEventListener('keyup', ({keyCode}) =>{
+    addEventListener('keyup', ({keyCode}) =>{
     switch(keyCode){
         case 87: 
             console.log('Вверх действие завершено');
@@ -296,9 +294,10 @@ addEventListener('keyup', ({keyCode}) =>{
             console.log('right end');
             keys.rigth.pressed = false;
     }
-})
+    })
 }
 else{
+
 }
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс

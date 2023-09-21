@@ -251,7 +251,7 @@ var Platform = /*#__PURE__*/function () {
   return Platform;
 }();
 var GenObj = /*#__PURE__*/function () {
-  function GenObj(x, y, image) {
+  function GenObj(x, y) {
     _classCallCheck(this, GenObj);
     this.pos = {
       x: x,
@@ -274,7 +274,6 @@ function createImage(imgSrc) {
 }
 var PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var Gr_Menu = createImage(_image_ground_menu_jpg__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var genobj = [new GenObj(-1, -1)];
 var player = new Player();
 var enemy = new Enemy();
@@ -304,70 +303,72 @@ function respawn(hp) {
 //запуск loop
 
 function anim() {
-  requestAnimationFrame(anim);
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, cumvas.width, cumvas.height);
-  genobj.forEach(function (genobj) {
-    genobj.draw();
-  });
-  platform.forEach(function (platform) {
-    platform.draw();
-  });
-  player.update();
-  if (scrolloff > 8000) {
-    enemy.update();
-  }
-  if (keys.left.pressed && player.pos.x > 8000) {
-    player.vel.x = 0;
-  }
-
-  // проверки управления, создание границ и не только
-  if (keys.rigth.pressed && player.pos.x < 400) {
-    player.vel.x = 5;
-  } else if (keys.left.pressed && player.pos.x > 100) {
-    player.vel.x = -5;
-  } else player.vel.x = 0;
-  if (keys.rigth.pressed) {
-    platform.forEach(function (platform) {
-      scrolloff += 5;
-      platform.pos.x -= 10;
+  if (player.hp >= 0) {
+    requestAnimationFrame(anim);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+    genobj.forEach(function (genobj) {
+      genobj.draw();
     });
-  } else if (keys.left.pressed) {
     platform.forEach(function (platform) {
-      scrolloff -= 5;
-      platform.pos.x += 10;
+      platform.draw();
+    });
+    player.update();
+    if (scrolloff > 8000) {
+      enemy.update();
+    }
+    if (keys.left.pressed && player.pos.x > 8000) {
+      player.vel.x = 0;
+    }
+
+    // проверки управления, создание границ и не только
+    if (keys.rigth.pressed && player.pos.x < 400) {
+      player.vel.x = 5;
+    } else if (keys.left.pressed && player.pos.x > 100) {
+      player.vel.x = -5;
+    } else player.vel.x = 0;
+    if (keys.rigth.pressed) {
+      platform.forEach(function (platform) {
+        scrolloff += 5;
+        platform.pos.x -= 10;
+      });
+    } else if (keys.left.pressed) {
+      platform.forEach(function (platform) {
+        scrolloff -= 5;
+        platform.pos.x += 10;
+      });
+    }
+    console.log(scrolloff);
+    if (scrolloff > 8000) {
+      console.log("BossTime");
+      activate_enemy = true;
+    }
+    if (player.pos.y > cumvas.height) {
+      respawn(player.hp - 1);
+      console.log(player.hp);
+    }
+
+    // проверка платформы
+    platform.forEach(function (platform) {
+      if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
+        player.vel.y = 0;
+      }
     });
   }
-  console.log(scrolloff);
-  if (scrolloff > 8000) {
-    console.log("BossTime");
-    activate_enemy = true;
+  //Проиграли
+  else {
+    ctx.clearRect(0, 0, cumvas.width, cumvas.height);
+    console.log("Game Over");
+    ctx.fillStyle = 'White';
+    rect = ctx.fillRect(400, 200, cumvas.width / 2, cumvas.height / 2);
+    ctx.fillStyle = 'Blue';
   }
-  if (player.pos.y > cumvas.height) {
-    respawn(player.hp - 1);
-    console.log(player.hp);
-    if (player.hp == 0) {
-      gameOver = true;
-    }
-  }
-
-  // проверка платформы
-  platform.forEach(function (platform) {
-    if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
-      player.vel.y = 0;
-    }
-  });
 }
 
 ///Здесь начинается Веселуха для меню
 
-var gameStarted = true;
-var gameOver = false;
 var can_jump = true;
-function start_game() {
-  ctx.fillStyle = "blue";
-  ctx.fillRect(100, 100, 100, 100);
-}
+var gameStarted = true;
 if (gameStarted) {
   player.update();
   anim();
