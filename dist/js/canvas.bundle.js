@@ -99,6 +99,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/image/ground_menu.jpg":
+/*!***********************************!*\
+  !*** ./src/image/ground_menu.jpg ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "6974fe1296fd521984ac74b4feb4fca4.jpg");
+
+/***/ }),
+
 /***/ "./src/image/platform.png":
 /*!********************************!*\
   !*** ./src/image/platform.png ***!
@@ -123,6 +136,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_platform_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image/platform.png */ "./src/image/platform.png");
 /* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
+/* harmony import */ var _image_ground_menu_jpg__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/ground_menu.jpg */ "./src/image/ground_menu.jpg");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -130,6 +144,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
+
+
+
+//Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
+//но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
 
 var cumvas = document.querySelector('canvas');
 var ctx = cumvas.getContext('2d');
@@ -152,6 +171,7 @@ var Player = /*#__PURE__*/function () {
     };
     this.width = 100;
     this.height = 100;
+    this.hp = 3;
   }
   _createClass(Player, [{
     key: "draw",
@@ -167,12 +187,46 @@ var Player = /*#__PURE__*/function () {
       this.draw();
       if (this.pos.y + this.height + this.vel.y <= cumvas.height) {
         this.vel.y += gravity;
+      }
+    }
+  }]);
+  return Player;
+}();
+var Enemy = /*#__PURE__*/function () {
+  function Enemy() {
+    _classCallCheck(this, Enemy);
+    this.pos = {
+      x: 400,
+      y: 100
+    };
+    this.vel = {
+      x: 0,
+      y: 1
+    };
+    this.width = 100;
+    this.height = 100;
+    this.hp = 3;
+  }
+  _createClass(Enemy, [{
+    key: "draw",
+    value: function draw() {
+      ctx.fillStyle = 'blue';
+      ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      this.pos.y += this.vel.y;
+      this.pos.x += this.vel.x;
+      this.draw();
+      if (this.pos.y + this.height + this.vel.y <= cumvas.height) {
+        this.vel.y += gravity;
       } else {
         this.vel.y = 0;
       }
     }
   }]);
-  return Player;
+  return Enemy;
 }();
 var Platform = /*#__PURE__*/function () {
   function Platform(x, y) {
@@ -220,8 +274,10 @@ function createImage(imgSrc) {
 }
 var PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var Gr_Menu = createImage(_image_ground_menu_jpg__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var genobj = [new GenObj(-1, -1)];
 var player = new Player();
+var enemy = new Enemy();
 var platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
 var keys = {
   rigth: {
@@ -234,8 +290,19 @@ var keys = {
 
 //отсчет до босс комнаты
 var scrolloff = 0;
+function respawn(hp) {
+  PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
+  genobj = [new GenObj(-1, -1)];
+  player = new Player();
+  player.hp = hp;
+  enemy = new Enemy();
+  platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
+  //отсчет до босс комнаты
+
+  scrolloff = 0;
+}
 //запуск loop
-player.update();
+
 function anim() {
   requestAnimationFrame(anim);
   ctx.fillStyle = 'white';
@@ -247,6 +314,12 @@ function anim() {
     platform.draw();
   });
   player.update();
+  if (scrolloff > 8000) {
+    enemy.update();
+  }
+  if (keys.left.pressed && player.pos.x > 8000) {
+    player.vel.x = 0;
+  }
 
   // проверки управления, создание границ и не только
   if (keys.rigth.pressed && player.pos.x < 400) {
@@ -266,6 +339,17 @@ function anim() {
     });
   }
   console.log(scrolloff);
+  if (scrolloff > 8000) {
+    console.log("BossTime");
+    activate_enemy = true;
+  }
+  if (player.pos.y > cumvas.height) {
+    respawn(player.hp - 1);
+    console.log(player.hp);
+    if (player.hp == 0) {
+      gameOver = true;
+    }
+  }
 
   // проверка платформы
   platform.forEach(function (platform) {
@@ -273,57 +357,74 @@ function anim() {
       player.vel.y = 0;
     }
   });
-  // win moment
-  if (scrolloff > 8000) {
-    console.log('bosstime');
-  }
 }
-anim();
+
+///Здесь начинается Веселуха для меню
+
+var gameStarted = true;
+var gameOver = false;
 var can_jump = true;
-addEventListener('keydown', function (_ref) {
-  var keyCode = _ref.keyCode;
-  console.log(keyCode);
-  switch (keyCode) {
-    case 87:
-      console.log('вверх');
-      if (can_jump) {
-        player.vel.y = -10;
-        can_jump = false;
-      }
-      break;
-    case 83:
-      console.log('вниз');
-      break;
-    case 65:
-      console.log('влево');
-      keys.left.pressed = true;
-      break;
-    case 68:
-      console.log('вправо');
-      keys.rigth.pressed = true;
-      break;
-  }
-});
-addEventListener('keyup', function (_ref2) {
-  var keyCode = _ref2.keyCode;
-  console.log(keyCode);
-  switch (keyCode) {
-    case 87:
-      console.log('Вверх действие завершено');
-      can_jump = true;
-      break;
-    case 83:
-      console.log('down end');
-      break;
-    case 65:
-      console.log('left end');
-      keys.left.pressed = false;
-      break;
-    case 68:
-      console.log('right end');
-      keys.rigth.pressed = false;
-  }
-});
+function start_game() {
+  ctx.fillStyle = "blue";
+  ctx.fillRect(100, 100, 100, 100);
+}
+function game_over() {
+  ctx.fillStyle = "blue";
+  ctx.fillRect(100, 100, 100, 100);
+}
+if (gameOver) {
+  game_over();
+}
+if (gameStarted) {
+  player.update();
+  anim();
+  addEventListener('keydown', function (_ref) {
+    var keyCode = _ref.keyCode;
+    switch (keyCode) {
+      case 87:
+        console.log('вверх');
+        if (can_jump) {
+          player.vel.y = -10;
+          can_jump = false;
+        }
+        break;
+      case 83:
+        console.log('вниз');
+        break;
+      case 65:
+        console.log('влево');
+        keys.left.pressed = true;
+        break;
+      case 68:
+        console.log('вправо');
+        keys.rigth.pressed = true;
+        break;
+    }
+  });
+  addEventListener('keyup', function (_ref2) {
+    var keyCode = _ref2.keyCode;
+    switch (keyCode) {
+      case 87:
+        console.log('Вверх действие завершено');
+        can_jump = true;
+        break;
+      case 83:
+        console.log('down end');
+        break;
+      case 65:
+        console.log('left end');
+        keys.left.pressed = false;
+        break;
+      case 68:
+        console.log('right end');
+        keys.rigth.pressed = false;
+    }
+  });
+} else {
+  start_game();
+}
+
+/// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 
 /***/ })
 

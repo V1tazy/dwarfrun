@@ -1,5 +1,9 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
+import gm from '../image/ground_menu.jpg'
+
+//Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
+//но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
 
 const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
@@ -25,6 +29,7 @@ class Player{
         
         this.width = 100
         this.height = 100
+        this.hp = 3
     }
 
     draw(){
@@ -35,6 +40,35 @@ class Player{
     update(){
         this.pos.y += this.vel.y
         this.pos.x += this.vel.x
+        this.draw();
+        if(this.pos.y + this.height + this.vel.y <= cumvas.height){
+            this.vel.y += gravity;
+        }
+    }
+}
+
+class Enemy{
+    constructor(){
+        this.pos = {
+            x: 400,
+            y: 100
+        }
+        this.vel = {
+            x:0,
+            y:1
+        }
+        this.width = 100
+        this.height = 100
+        this.hp = 3 
+    }
+
+    draw(){
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+    }
+    update(){
+        this.pos.y += this.vel.y;
+        this.pos.x += this.vel.x;
         this.draw();
         if(this.pos.y + this.height + this.vel.y <= cumvas.height){
             this.vel.y += gravity;
@@ -83,32 +117,54 @@ function createImage(imgSrc){
   return image;
 }
 
-const PlatformImage = createImage(platforms);
+let PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
+const Gr_Menu = createImage(gm)
 
-const genobj = [new GenObj(-1, -1)];
-const player = new Player();
-const platform = [
-    new Platform(0, 450),
-    new Platform(PlatformImage.width - 80, 750),
-    new Platform(1200, 450)
+
+let genobj = [new GenObj(-1, -1)];
+let player = new Player();
+let enemy = new Enemy();
+let platform = [
+new Platform(0, 450),
+new Platform(PlatformImage.width - 80, 750),
+new Platform(1200, 450)
 ];
 
 
 const keys = {
-    rigth:{
-        pressed: false
-    },
-    left:{
-        pressed: false
-    }
+rigth:{
+    pressed: false
+},
+left:{
+    pressed: false
+}
 }
 
 
 //отсчет до босс комнаты
 let scrolloff = 0;
+
+
+function respawn(hp){
+
+    PlatformImage = createImage(platforms);
+
+    genobj = [new GenObj(-1, -1)];
+    player = new Player();
+    player.hp = hp
+    enemy = new Enemy();
+    platform = [
+    new Platform(0, 450),
+    new Platform(PlatformImage.width - 80, 750),
+    new Platform(1200, 450)
+];
+//отсчет до босс комнаты
+
+    scrolloff = 0;
+}
 //запуск loop
-player.update();
+
 
 function anim(){
     requestAnimationFrame(anim);
@@ -122,6 +178,13 @@ function anim(){
         platform.draw();
     })
     player.update();
+    if(scrolloff > 8000){
+        enemy.update();
+    }
+
+    if(keys.left.pressed && player.pos.x > 8000){
+        player.vel.x = 0;
+    }
 
     // проверки управления, создание границ и не только
     if(keys.rigth.pressed && player.pos.x < 400){
@@ -148,6 +211,19 @@ function anim(){
 
     console.log(scrolloff)
 
+    if(scrolloff > 8000){
+        console.log("BossTime");
+        activate_enemy = true;
+    }
+
+    if(player.pos.y > cumvas.height){
+        respawn(player.hp - 1);
+        console.log(player.hp);
+        if(player.hp == 0){
+            gameOver = true;
+        }
+    }
+
     // проверка платформы
     platform.forEach(platform => {
     if((player.pos.y + player.height <= platform.pos.y)
@@ -158,18 +234,24 @@ function anim(){
         player.vel.y = 0;
     }
     })
-    // win moment
-    if(scrolloff > 8000){
-      console.log('bosstime')
-    }
 }
 
-anim();
+///Здесь начинается Веселуха для меню
 
-var can_jump = true;
+let gameStarted = true;
+let gameOver = false;
+let can_jump = true;
+
+function start_game(){
+    ctx.fillStyle = "blue";
+    ctx.fillRect(100,100,100,100);
+}
+
+if(gameStarted){
+    player.update(); 
+    anim();
 
 addEventListener('keydown', ({keyCode}) =>{
-    console.log(keyCode)
     switch(keyCode) {
         case 87:
             console.log('вверх')
@@ -198,7 +280,6 @@ addEventListener('keydown', ({keyCode}) =>{
 
 
 addEventListener('keyup', ({keyCode}) =>{
-    console.log(keyCode)
     switch(keyCode){
         case 87: 
             console.log('Вверх действие завершено');
@@ -216,3 +297,8 @@ addEventListener('keyup', ({keyCode}) =>{
             keys.rigth.pressed = false;
     }
 })
+}
+else{
+}
+
+/// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
