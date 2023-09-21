@@ -368,13 +368,6 @@ function start_game() {
   ctx.fillStyle = "blue";
   ctx.fillRect(100, 100, 100, 100);
 }
-function game_over() {
-  ctx.fillStyle = "blue";
-  ctx.fillRect(100, 100, 100, 100);
-}
-if (gameOver) {
-  game_over();
-}
 if (gameStarted) {
   player.update();
   anim();
@@ -420,9 +413,7 @@ if (gameStarted) {
         keys.rigth.pressed = false;
     }
   });
-} else {
-  start_game();
-}
+} else {}
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 
