@@ -153,11 +153,35 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var cumvas = document.querySelector('canvas');
 var ctx = cumvas.getContext('2d');
 var gravity = 0.5;
-cumvas.width = window.innerWidth - 50;
-cumvas.height = window.innerHeight - 100;
-console.log(screen);
-
-//классы всех объектов от игрока до платформ
+cumvas.width = window.innerWidth;
+cumvas.height = window.innerHeight;
+var Button = /*#__PURE__*/function () {
+  function Button(label, color, width, height) {
+    var textcolor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "#000000";
+    var textsize = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 24;
+    _classCallCheck(this, Button);
+    this.label = label;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+    this.textcolor = textcolor;
+    this.textsize = textsize;
+  }
+  _createClass(Button, [{
+    key: "draw",
+    value: function draw(ctx, x, y) {
+      ctx.lineWidth = 1;
+      ctx.fillStyle = this.color;
+      ctx.strokeStyle = this.textcolor;
+      ctx.fillRect(x, y, this.width, this.height);
+      ctx.fillStyle = this.textcolor;
+      ctx.font = this.textsize + "px sans-serif";
+      var rktmtx = ctx.measureText(this.label);
+      ctx.fillText(this.label, x + (this.width - rktmtx.width) / 2, y + (rktmtx.actualBoundingBoxAscent + this.height) / 2);
+    }
+  }]);
+  return Button;
+}(); //классы всех объектов от игрока до платформ
 var Player = /*#__PURE__*/function () {
   function Player() {
     _classCallCheck(this, Player);
@@ -242,6 +266,7 @@ var Platform = /*#__PURE__*/function () {
   _createClass(Platform, [{
     key: "draw",
     value: function draw() {
+      console.log(ctx);
       ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height);
     }
   }, {
@@ -368,7 +393,7 @@ function anim() {
 ///Здесь начинается Веселуха для меню
 
 var can_jump = true;
-var gameStarted = true;
+var gameStarted = false;
 if (gameStarted) {
   player.update();
   anim();
@@ -414,7 +439,19 @@ if (gameStarted) {
         keys.rigth.pressed = false;
     }
   });
-} else {}
+} else {
+  var startbtn = new Button("Start", "#ffffff", 300, 75);
+  startbtn.draw(ctx, (cumvas.width - startbtn.width) / 2, (cumvas.height - startbtn.height) / 2);
+  addEventListener('mouseup', function (a) {
+    var x = a.startX;
+    var y = a.startY;
+    var sx = (cumvas.width - startbtn.width) / 2;
+    var sy = (cumvas.width - startbtn.height) / 2;
+    if (x > sx && y > sy && x + cumvas.width < sx && y + cumvas.height < sy) {
+      removeEventListener('mouseup');
+    }
+  });
+}
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 

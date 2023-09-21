@@ -1,6 +1,6 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
-import gm from '../image/ground_menu.jpg'
+import gm from '../image/ground_menu.jpg';
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -9,14 +9,42 @@ const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
 const gravity = 0.5;
 
-cumvas.width = window.innerWidth - 50;
-cumvas.height = window.innerHeight - 100;
+cumvas.width = window.innerWidth;
+cumvas.height = window.innerHeight;
 
-console.log(screen);
+class Button {
+    constructor(label, color, width, height, textcolor = "#000000", textsize = 24) {
+        this.label = label;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+        this.textcolor = textcolor;
+        this.textsize = textsize;
+    }
+
+    draw(ctx, x, y) {
+        ctx.lineWidth = 1;
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = this.textcolor;
+
+        ctx.fillRect(x, y, this.width, this.height)
+
+        ctx.fillStyle = this.textcolor;
+        ctx.font = this.textsize + "px sans-serif"
+
+        var rktmtx = ctx.measureText(this.label)
+
+        ctx.fillText(
+            this.label,
+            x + (this.width - rktmtx.width) / 2,
+            y + (rktmtx.actualBoundingBoxAscent + this.height) / 2
+        )
+     }
+}
 
 //классы всех объектов от игрока до платформ
-class Player{
-    constructor(){
+class Player {
+    constructor() {
         this.pos = {
             x: 100,
             y: 100,
@@ -93,6 +121,7 @@ class Platform{
     }
 
     draw(){
+        console.log(ctx)
         ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height)
     }
     update(){}
@@ -243,7 +272,7 @@ function anim(){
 ///Здесь начинается Веселуха для меню
 
 let can_jump = true;
-let gameStarted = true;
+let gameStarted = false;
 
 if(gameStarted){
     player.update(); 
@@ -297,7 +326,20 @@ if(gameStarted){
     })
 }
 else{
+    let startbtn = new Button("Start", "#ffffff", 300, 75)
+    startbtn.draw(ctx, (cumvas.width - startbtn.width) / 2, (cumvas.height - startbtn.height) / 2);
 
+    addEventListener('mouseup', (a) => {
+        let x = a.startX
+        let y = a.startY
+
+        let sx = (cumvas.width - startbtn.width) / 2;
+        let sy = (cumvas.width - startbtn.height) / 2;
+
+        if(x > sx && y > sy && x + cumvas.width < sx && y + cumvas.height < sy) {
+            removeEventListener('mouseup');
+        }
+    })
 }
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
