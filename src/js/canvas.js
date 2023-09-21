@@ -5,8 +5,8 @@ const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
 const gravity = 0.5;
 
-cumvas.width = window.innerWidth - 50;
-cumvas.height = window.innerHeight - 100;
+cumvas.width = window.innerWidth - 25;
+cumvas.height = window.innerHeight - 10;
 
 console.log(screen);
 
@@ -107,10 +107,8 @@ const keys = {
 
 //отсчет до босс комнаты
 let scrolloff = 0;
-//запуск loop
-player.update();
 
-function anim(){
+function anim() {
     requestAnimationFrame(anim);
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, cumvas.width, cumvas.height);
@@ -164,55 +162,68 @@ function anim(){
     }
 }
 
-anim();
+function start() {
+    //запуск loop
+    player.update();
 
-var can_jump = true;
+    anim();
 
-addEventListener('keydown', ({keyCode}) =>{
-    console.log(keyCode)
-    switch(keyCode) {
-        case 87:
-            console.log('вверх')
-            if(can_jump) {
-                player.vel.y = -10;
-                can_jump = false;
-            }
-            break;
+    var can_jump = true;
 
-        case 83:
-            console.log('вниз')
-            break;
+    addEventListener('keydown', ({keyCode}) =>{
+        console.log(keyCode)
+        switch(keyCode) {
+            case 87:
+                console.log('вверх')
+                if(can_jump) {
+                    player.vel.y = -10;
+                    can_jump = false;
+                }
+                break;
 
-        case 65:
-            console.log('влево')
-            keys.left.pressed = true;
-            break;
+            case 83:
+                console.log('вниз')
+                break;
 
-        case 68:
-            console.log('вправо')
-            keys.rigth.pressed = true;
-            break;
+            case 65:
+                console.log('влево')
+                keys.left.pressed = true;
+                break;
 
-    }   
-})
+            case 68:
+                console.log('вправо')
+                keys.rigth.pressed = true;
+                break;
+
+        }   
+    })
 
 
-addEventListener('keyup', ({keyCode}) =>{
-    console.log(keyCode)
-    switch(keyCode){
-        case 87: 
-            console.log('Вверх действие завершено');
-            can_jump = true;
-            break;
-        case 83:
-            console.log('down end');
-            break;
-        case 65:
-            console.log('left end');
-            keys.left.pressed = false;
-            break;
-        case 68:
-            console.log('right end');
-            keys.rigth.pressed = false;
-    }
-})
+    addEventListener('keyup', ({keyCode}) =>{
+        console.log(keyCode)
+        switch(keyCode){
+            case 87: 
+                console.log('Вверх действие завершено');
+                can_jump = true;
+                break;
+            case 83:
+                console.log('down end');
+                break;
+            case 65:
+                console.log('left end');
+                keys.left.pressed = false;
+                break;
+            case 68:
+                console.log('right end');
+                keys.rigth.pressed = false;
+        }
+    })
+}
+
+// module.exports = { start: start };
+
+// питонисты жоска имеют JS смотреть бесплатно 18++ = 19
+
+export { start };
+
+start();

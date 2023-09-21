@@ -116,11 +116,12 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************!*\
   !*** ./src/js/canvas.js ***!
   \**************************/
-/*! no exports provided */
+/*! exports provided: start */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "start", function() { return start; });
 /* harmony import */ var _image_platform_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image/platform.png */ "./src/image/platform.png");
 /* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -134,8 +135,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 var cumvas = document.querySelector('canvas');
 var ctx = cumvas.getContext('2d');
 var gravity = 0.5;
-cumvas.width = window.innerWidth - 50;
-cumvas.height = window.innerHeight - 100;
+cumvas.width = window.innerWidth - 25;
+cumvas.height = window.innerHeight - 10;
 console.log(screen);
 
 //классы всех объектов от игрока до платформ
@@ -234,8 +235,6 @@ var keys = {
 
 //отсчет до босс комнаты
 var scrolloff = 0;
-//запуск loop
-player.update();
 function anim() {
   requestAnimationFrame(anim);
   ctx.fillStyle = 'white';
@@ -278,52 +277,63 @@ function anim() {
     console.log('bosstime');
   }
 }
-anim();
-var can_jump = true;
-addEventListener('keydown', function (_ref) {
-  var keyCode = _ref.keyCode;
-  console.log(keyCode);
-  switch (keyCode) {
-    case 87:
-      console.log('вверх');
-      if (can_jump) {
-        player.vel.y = -10;
-        can_jump = false;
-      }
-      break;
-    case 83:
-      console.log('вниз');
-      break;
-    case 65:
-      console.log('влево');
-      keys.left.pressed = true;
-      break;
-    case 68:
-      console.log('вправо');
-      keys.rigth.pressed = true;
-      break;
-  }
-});
-addEventListener('keyup', function (_ref2) {
-  var keyCode = _ref2.keyCode;
-  console.log(keyCode);
-  switch (keyCode) {
-    case 87:
-      console.log('Вверх действие завершено');
-      can_jump = true;
-      break;
-    case 83:
-      console.log('down end');
-      break;
-    case 65:
-      console.log('left end');
-      keys.left.pressed = false;
-      break;
-    case 68:
-      console.log('right end');
-      keys.rigth.pressed = false;
-  }
-});
+function start() {
+  //запуск loop
+  player.update();
+  anim();
+  var can_jump = true;
+  addEventListener('keydown', function (_ref) {
+    var keyCode = _ref.keyCode;
+    console.log(keyCode);
+    switch (keyCode) {
+      case 87:
+        console.log('вверх');
+        if (can_jump) {
+          player.vel.y = -10;
+          can_jump = false;
+        }
+        break;
+      case 83:
+        console.log('вниз');
+        break;
+      case 65:
+        console.log('влево');
+        keys.left.pressed = true;
+        break;
+      case 68:
+        console.log('вправо');
+        keys.rigth.pressed = true;
+        break;
+    }
+  });
+  addEventListener('keyup', function (_ref2) {
+    var keyCode = _ref2.keyCode;
+    console.log(keyCode);
+    switch (keyCode) {
+      case 87:
+        console.log('Вверх действие завершено');
+        can_jump = true;
+        break;
+      case 83:
+        console.log('down end');
+        break;
+      case 65:
+        console.log('left end');
+        keys.left.pressed = false;
+        break;
+      case 68:
+        console.log('right end');
+        keys.rigth.pressed = false;
+    }
+  });
+}
+
+// module.exports = { start: start };
+
+// питонисты жоска имеют JS смотреть бесплатно 18++ = 19
+
+
+start();
 
 /***/ })
 
