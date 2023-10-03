@@ -121,7 +121,6 @@ class Platform{
     }
 
     draw(){
-        console.log(ctx)
         ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height)
     }
     update(){}
@@ -272,9 +271,8 @@ function anim(){
 ///Здесь начинается Веселуха для меню
 
 let can_jump = true;
-let gameStarted = false;
 
-if(gameStarted){
+let start_game = () => {
     player.update(); 
     anim();
 
@@ -301,45 +299,48 @@ if(gameStarted){
             console.log('вправо')
             keys.rigth.pressed = true;
             break;
-
     }   
     })
 
-
     addEventListener('keyup', ({keyCode}) =>{
-    switch(keyCode){
-        case 87: 
-            console.log('Вверх действие завершено');
-            can_jump = true;
-            break;
-        case 83:
-            console.log('down end');
-            break;
-        case 65:
-            console.log('left end');
-            keys.left.pressed = false;
-            break;
-        case 68:
-            console.log('right end');
-            keys.rigth.pressed = false;
-    }
-    })
-}
-else{
-    let startbtn = new Button("Start", "#ffffff", 300, 75)
-    startbtn.draw(ctx, (cumvas.width - startbtn.width) / 2, (cumvas.height - startbtn.height) / 2);
-
-    addEventListener('mouseup', (a) => {
-        let x = a.startX
-        let y = a.startY
-
-        let sx = (cumvas.width - startbtn.width) / 2;
-        let sy = (cumvas.width - startbtn.height) / 2;
-
-        if(x > sx && y > sy && x + cumvas.width < sx && y + cumvas.height < sy) {
-            removeEventListener('mouseup');
+        switch(keyCode){
+            case 87: 
+                console.log('Вверх действие завершено');
+                can_jump = true;
+                break;
+            case 83:
+                console.log('down end');
+                break;
+            case 65:
+                console.log('left end');
+                keys.left.pressed = false;
+                break;
+            case 68:
+                console.log('right end');
+                keys.rigth.pressed = false;
         }
     })
 }
+
+let startbtn = new Button("Start", "#ffffff", 300, 75)
+
+let bx = (cumvas.width - startbtn.width) / 2;
+let by = (cumvas.height - startbtn.height) / 2;
+startbtn.draw(ctx, bx, by);
+
+let mouse_evlis = (a) => {
+    let x = a.clientX
+    let y = a.clientY
+
+    console.log(x, y, bx, by)
+    console.log(x > bx, y > by, x < bx + 300, y < by + 75)
+
+    if(x > bx && y > by && x < bx + 300 && y < by + 75) {
+        removeEventListener('mouseup',mouse_evlis);
+        start_game();
+    }
+};
+
+addEventListener('mouseup', mouse_evlis)
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс

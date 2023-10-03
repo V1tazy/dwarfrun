@@ -266,7 +266,6 @@ var Platform = /*#__PURE__*/function () {
   _createClass(Platform, [{
     key: "draw",
     value: function draw() {
-      console.log(ctx);
       ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height);
     }
   }, {
@@ -393,8 +392,7 @@ function anim() {
 ///Здесь начинается Веселуха для меню
 
 var can_jump = true;
-var gameStarted = false;
-if (gameStarted) {
+var start_game = function start_game() {
   player.update();
   anim();
   addEventListener('keydown', function (_ref) {
@@ -439,19 +437,22 @@ if (gameStarted) {
         keys.rigth.pressed = false;
     }
   });
-} else {
-  var startbtn = new Button("Start", "#ffffff", 300, 75);
-  startbtn.draw(ctx, (cumvas.width - startbtn.width) / 2, (cumvas.height - startbtn.height) / 2);
-  addEventListener('mouseup', function (a) {
-    var x = a.startX;
-    var y = a.startY;
-    var sx = (cumvas.width - startbtn.width) / 2;
-    var sy = (cumvas.width - startbtn.height) / 2;
-    if (x > sx && y > sy && x + cumvas.width < sx && y + cumvas.height < sy) {
-      removeEventListener('mouseup');
-    }
-  });
-}
+};
+var startbtn = new Button("Start", "#ffffff", 300, 75);
+var bx = (cumvas.width - startbtn.width) / 2;
+var by = (cumvas.height - startbtn.height) / 2;
+startbtn.draw(ctx, bx, by);
+var mouse_evlis = function mouse_evlis(a) {
+  var x = a.clientX;
+  var y = a.clientY;
+  console.log(x, y, bx, by);
+  console.log(x > bx, y > by, x < bx + 300, y < by + 75);
+  if (x > bx && y > by && x < bx + 300 && y < by + 75) {
+    removeEventListener('mouseup', mouse_evlis);
+    start_game();
+  }
+};
+addEventListener('mouseup', mouse_evlis);
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 
