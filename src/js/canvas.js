@@ -13,21 +13,25 @@ cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 
 class Button {
-    constructor(label, color, width, height, textcolor = "#000000", textsize = 24) {
+    constructor(label, color, width, height, x, y, textcolor = "#000000", textsize = 24) {
         this.label = label;
         this.width = width;
         this.height = height;
         this.color = color;
         this.textcolor = textcolor;
         this.textsize = textsize;
+        this.x = x
+        this.y = y
+
+        addEventListener('mouseup', this.mouseup.bind(this))
     }
 
-    draw(ctx, x, y) {
+    draw(ctx) {
         ctx.lineWidth = 1;
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.textcolor;
 
-        ctx.fillRect(x, y, this.width, this.height)
+        ctx.fillRect(this.x, this.y, this.width, this.height)
 
         ctx.fillStyle = this.textcolor;
         ctx.font = this.textsize + "px sans-serif"
@@ -36,10 +40,23 @@ class Button {
 
         ctx.fillText(
             this.label,
-            x + (this.width - rktmtx.width) / 2,
-            y + (rktmtx.actualBoundingBoxAscent + this.height) / 2
+            this.x + (this.width - rktmtx.width) / 2,
+            this.y + (rktmtx.actualBoundingBoxAscent + this.height) / 2
         )
-     }
+    }
+
+    onmouseup(a) {
+        
+    }
+
+    mouseup(a) {
+        let x = a.clientX
+        let y = a.clientY
+
+        if(x > this.x && y > this.y && x < this.x + this.width && y < this.y + this.height) {
+            this.onmouseup(a);
+        }
+    }
 }
 
 //классы всех объектов от игрока до платформ
@@ -120,9 +137,10 @@ class Platform{
         this.height = this.image.height;
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height)
     }
+
     update(){}
 }
 
@@ -152,9 +170,9 @@ let genobj = [new GenObj(-1, -1)];
 let player = new Player();
 let enemy = new Enemy();
 let platform = [
-new Platform(0, 450),
-new Platform(PlatformImage.width - 80, 750),
-new Platform(1200, 450)
+    new Platform(0, 450),
+    new Platform(PlatformImage.width - 80, 750),
+    new Platform(1200, 450)
 ];
 
 
@@ -322,25 +340,23 @@ let start_game = () => {
     })
 }
 
-let startbtn = new Button("Start", "#ffffff", 300, 75)
+let startbtn = new Button(
+    "Start",
+    "#ffffff",
+    300,
+    75,
+    0,
+    0
+);
 
-let bx = (cumvas.width - startbtn.width) / 2;
-let by = (cumvas.height - startbtn.height) / 2;
-startbtn.draw(ctx, bx, by);
+startbtn.x = (cumvas.width - startbtn.width) / 2,
+startbtn.y = (cumvas.height - startbtn.height) / 2
 
-let mouse_evlis = (a) => {
-    let x = a.clientX
-    let y = a.clientY
-
-    console.log(x, y, bx, by)
-    console.log(x > bx, y > by, x < bx + 300, y < by + 75)
-
-    if(x > bx && y > by && x < bx + 300 && y < by + 75) {
-        removeEventListener('mouseup',mouse_evlis);
-        start_game();
-    }
+startbtn.onmouseup = function(a) {
+    start_game();
+    removeEventListener('mouseup', this.mouseup);
 };
 
-addEventListener('mouseup', mouse_evlis)
+startbtn.draw(ctx);
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс

@@ -156,9 +156,9 @@ var gravity = 0.5;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 var Button = /*#__PURE__*/function () {
-  function Button(label, color, width, height) {
-    var textcolor = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "#000000";
-    var textsize = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 24;
+  function Button(label, color, width, height, x, y) {
+    var textcolor = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "#000000";
+    var textsize = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 24;
     _classCallCheck(this, Button);
     this.label = label;
     this.width = width;
@@ -166,18 +166,33 @@ var Button = /*#__PURE__*/function () {
     this.color = color;
     this.textcolor = textcolor;
     this.textsize = textsize;
+    this.x = x;
+    this.y = y;
+    addEventListener('mouseup', this.mouseup.bind(this));
   }
   _createClass(Button, [{
     key: "draw",
-    value: function draw(ctx, x, y) {
+    value: function draw(ctx) {
       ctx.lineWidth = 1;
       ctx.fillStyle = this.color;
       ctx.strokeStyle = this.textcolor;
-      ctx.fillRect(x, y, this.width, this.height);
+      ctx.fillRect(this.x, this.y, this.width, this.height);
       ctx.fillStyle = this.textcolor;
       ctx.font = this.textsize + "px sans-serif";
       var rktmtx = ctx.measureText(this.label);
-      ctx.fillText(this.label, x + (this.width - rktmtx.width) / 2, y + (rktmtx.actualBoundingBoxAscent + this.height) / 2);
+      ctx.fillText(this.label, this.x + (this.width - rktmtx.width) / 2, this.y + (rktmtx.actualBoundingBoxAscent + this.height) / 2);
+    }
+  }, {
+    key: "onmouseup",
+    value: function onmouseup(a) {}
+  }, {
+    key: "mouseup",
+    value: function mouseup(a) {
+      var x = a.clientX;
+      var y = a.clientY;
+      if (x > this.x && y > this.y && x < this.x + this.width && y < this.y + this.height) {
+        this.onmouseup(a);
+      }
     }
   }]);
   return Button;
@@ -438,21 +453,13 @@ var start_game = function start_game() {
     }
   });
 };
-var startbtn = new Button("Start", "#ffffff", 300, 75);
-var bx = (cumvas.width - startbtn.width) / 2;
-var by = (cumvas.height - startbtn.height) / 2;
-startbtn.draw(ctx, bx, by);
-var mouse_evlis = function mouse_evlis(a) {
-  var x = a.clientX;
-  var y = a.clientY;
-  console.log(x, y, bx, by);
-  console.log(x > bx, y > by, x < bx + 300, y < by + 75);
-  if (x > bx && y > by && x < bx + 300 && y < by + 75) {
-    removeEventListener('mouseup', mouse_evlis);
-    start_game();
-  }
+var startbtn = new Button("Start", "#ffffff", 300, 75, 0, 0);
+startbtn.x = (cumvas.width - startbtn.width) / 2, startbtn.y = (cumvas.height - startbtn.height) / 2;
+startbtn.onmouseup = function (a) {
+  start_game();
+  removeEventListener('mouseup', this.mouseup);
 };
-addEventListener('mouseup', mouse_evlis);
+startbtn.draw(ctx);
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 
