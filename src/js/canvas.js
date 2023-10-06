@@ -322,7 +322,6 @@ let start_game = () => {
     }   
     })
 
-    
     addEventListener('keyup', ({keyCode}) =>{
         switch(keyCode){
             case 87: 
