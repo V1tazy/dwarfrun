@@ -155,6 +155,7 @@ var ctx = cumvas.getContext('2d');
 var gravity = 0.5;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
+var can_jump = false;
 var Button = /*#__PURE__*/function () {
   function Button(label, color, width, height, x, y) {
     var textcolor = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "#000000";
@@ -318,7 +319,7 @@ var player = new Player();
 var enemy = new Enemy();
 var platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
 var keys = {
-  rigth: {
+  right: {
     pressed: false
   },
   left: {
@@ -359,14 +360,14 @@ function anim() {
     if (keys.left.pressed && player.pos.x > 8000) {
       player.vel.x = 0;
     }
-
-    // проверки управления, создание границ и не только
-    if (keys.rigth.pressed && player.pos.x < 400) {
+    if (keys.right.pressed && player.pos.x < 400) {
       player.vel.x = 5;
     } else if (keys.left.pressed && player.pos.x > 100) {
       player.vel.x = -5;
-    } else player.vel.x = 0;
-    if (keys.rigth.pressed) {
+    } else {
+      player.vel.x = 0;
+    }
+    if (keys.right.pressed) {
       platform.forEach(function (platform) {
         scrolloff += 5;
         platform.pos.x -= 10;
@@ -377,7 +378,6 @@ function anim() {
         platform.pos.x += 10;
       });
     }
-    console.log(scrolloff);
     if (scrolloff > 8000) {
       console.log("BossTime");
       activate_enemy = true;
@@ -390,12 +390,12 @@ function anim() {
     // проверка платформы
     platform.forEach(function (platform) {
       if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
+        can_jump = true;
+        console.log("AAAA");
         player.vel.y = 0;
       }
     });
-  }
-  //Проиграли
-  else {
+  } else {
     ctx.clearRect(0, 0, cumvas.width, cumvas.height);
     console.log("Game Over");
     ctx.fillStyle = 'White';
@@ -406,7 +406,6 @@ function anim() {
 
 ///Здесь начинается Веселуха для меню
 
-var can_jump = true;
 var start_game = function start_game() {
   player.update();
   anim();
@@ -429,7 +428,7 @@ var start_game = function start_game() {
         break;
       case 68:
         console.log('вправо');
-        keys.rigth.pressed = true;
+        keys.right.pressed = true;
         break;
     }
   });
@@ -438,7 +437,6 @@ var start_game = function start_game() {
     switch (keyCode) {
       case 87:
         console.log('Вверх действие завершено');
-        can_jump = true;
         break;
       case 83:
         console.log('down end');
@@ -449,12 +447,13 @@ var start_game = function start_game() {
         break;
       case 68:
         console.log('right end');
-        keys.rigth.pressed = false;
+        keys.right.pressed = false;
     }
   });
 };
 var startbtn = new Button("Start", "#ffffff", 300, 75, 0, 0);
-startbtn.x = (cumvas.width - startbtn.width) / 2, startbtn.y = (cumvas.height - startbtn.height) / 2;
+startbtn.x = (cumvas.width - startbtn.width) / 2;
+startbtn.y = (cumvas.height - startbtn.height) / 2;
 startbtn.onmouseup = function (a) {
   start_game();
   removeEventListener('mouseup', this.mouseup);
@@ -462,6 +461,7 @@ startbtn.onmouseup = function (a) {
 startbtn.draw(ctx);
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
+// Непрограммист и C++'ник фигачат как не в себя
 
 /***/ })
 

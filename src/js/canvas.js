@@ -12,6 +12,8 @@ const gravity = 0.5;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 
+var can_jump = false;
+
 class Button {
     constructor(label, color, width, height, x, y, textcolor = "#000000", textsize = 24) {
         this.label = label;
@@ -152,14 +154,16 @@ class GenObj{
       image: backgr
     }
   }
+  
   draw(){
-    ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height)}
-
+    ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height)
+  }
 }
 
 function createImage(imgSrc){
   const image = new Image();
   image.src = imgSrc;
+
   return image;
 }
 
@@ -177,12 +181,12 @@ let platform = [
 
 
 const keys = {
-rigth:{
-    pressed: false
-},
-left:{
-    pressed: false
-}
+    right:{
+        pressed: false
+    },
+    left:{
+        pressed: false
+    }
 }
 
 
@@ -212,73 +216,73 @@ function respawn(hp){
 
 function anim(){
     if(player.hp >= 0){
-    requestAnimationFrame(anim);
-    ctx.fillStyle = 'white'
-    ctx.fillRect(0, 0, cumvas.width, cumvas.height);
-    genobj.forEach((genobj) =>{
-      genobj.draw();
-    })
-
-    platform.forEach(platform => {
-        platform.draw();
-    })
-    player.update();
-    if(scrolloff > 8000){
-        enemy.update();
-    }
-
-    if(keys.left.pressed && player.pos.x > 8000){
-        player.vel.x = 0;
-    }
-
-    // проверки управления, создание границ и не только
-    if(keys.rigth.pressed && player.pos.x < 400){
-        player.vel.x = 5;
-    }
-    else if(keys.left.pressed && player.pos.x > 100){
-        player.vel.x = -5;
-    }
-    else player.vel.x = 0
-    
-    if(keys.rigth.pressed){
-        platform.forEach(platform => {
-            scrolloff += 5;
-            platform.pos.x -= 10;
-        })
-    }
-    else if(keys.left.pressed){
-        platform.forEach(platform => {
-            scrolloff -= 5;
-            platform.pos.x += 10;
+        requestAnimationFrame(anim);
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+        genobj.forEach((genobj) =>{
+        genobj.draw();
         })
 
-    }
+        platform.forEach(platform => {
+            platform.draw();
+        })
+        player.update();
+        if(scrolloff > 8000){
+            enemy.update();
+        }
 
-    console.log(scrolloff)
+        if(keys.left.pressed && player.pos.x > 8000){
+            player.vel.x = 0;
+        }
 
-    if(scrolloff > 8000){
-        console.log("BossTime");
-        activate_enemy = true;
-    }
+        if(keys.right.pressed && player.pos.x < 400){
+            player.vel.x = 5;
+        }
+        else if(keys.left.pressed && player.pos.x > 100){
+            player.vel.x = -5;
+        }
+        else {
+            player.vel.x = 0
+        }
+        
+        if(keys.right.pressed){
+            platform.forEach(platform => {
+                scrolloff += 5;
+                platform.pos.x -= 10;
+            })
+        }
+        else if(keys.left.pressed){
+            platform.forEach(platform => {
+                scrolloff -= 5;
+                platform.pos.x += 10;
+            })
 
-    if(player.pos.y > cumvas.height){
-        respawn(player.hp - 1);
-        console.log(player.hp);
-    }
+        }
 
-    // проверка платформы
-    platform.forEach(platform => {
-    if((player.pos.y + player.height <= platform.pos.y)
-        && (player.pos.y + player.height + player.vel.y >= platform.pos.y)
-        && (player.pos.x + player.width >= platform.pos.x)
-        && (player.pos.x <= platform.pos.x + platform.width)
-        ){
-        player.vel.y = 0;
-    }
-    })}
-    //Проиграли
-    else{
-        ctx.clearRect(0,0, cumvas.width, cumvas.height); 
+        if(scrolloff > 8000){
+            console.log("BossTime");
+            activate_enemy = true;
+        }
+
+        if(player.pos.y > cumvas.height){
+            respawn(player.hp - 1);
+            console.log(player.hp);
+        }
+
+        // проверка платформы
+        platform.forEach(platform => {
+            if((player.pos.y + player.height <= platform.pos.y)
+                && (player.pos.y + player.height + player.vel.y >= platform.pos.y)
+                && (player.pos.x + player.width >= platform.pos.x)
+                && (player.pos.x <= platform.pos.x + platform.width)
+                ) {
+                can_jump = true;
+                console.log("AAAA");
+                player.vel.y = 0;
+            }
+        })
+    } else {
+        ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
         console.log("Game Over");
         ctx.fillStyle = 'White';
         rect = ctx.fillRect(400, 200, cumvas.width/2, cumvas.height/2);
@@ -287,8 +291,6 @@ function anim(){
 }
 
 ///Здесь начинается Веселуха для меню
-
-let can_jump = true;
 
 let start_game = () => {
     player.update(); 
@@ -315,7 +317,7 @@ let start_game = () => {
 
         case 68:
             console.log('вправо')
-            keys.rigth.pressed = true;
+            keys.right.pressed = true;
             break;
     }   
     })
@@ -324,7 +326,6 @@ let start_game = () => {
         switch(keyCode){
             case 87: 
                 console.log('Вверх действие завершено');
-                can_jump = true;
                 break;
             case 83:
                 console.log('down end');
@@ -335,7 +336,7 @@ let start_game = () => {
                 break;
             case 68:
                 console.log('right end');
-                keys.rigth.pressed = false;
+                keys.right.pressed = false;
         }
     })
 }
@@ -349,7 +350,7 @@ let startbtn = new Button(
     0
 );
 
-startbtn.x = (cumvas.width - startbtn.width) / 2,
+startbtn.x = (cumvas.width - startbtn.width) / 2
 startbtn.y = (cumvas.height - startbtn.height) / 2
 
 startbtn.onmouseup = function(a) {
