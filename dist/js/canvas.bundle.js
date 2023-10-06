@@ -391,7 +391,6 @@ function anim() {
     platform.forEach(function (platform) {
       if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
         can_jump = true;
-        console.log("AAAA");
         player.vel.y = 0;
       }
     });

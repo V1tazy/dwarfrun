@@ -277,7 +277,6 @@ function anim(){
                 && (player.pos.x <= platform.pos.x + platform.width)
                 ) {
                 can_jump = true;
-                console.log("AAAA");
                 player.vel.y = 0;
             }
         })
