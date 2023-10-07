@@ -12,22 +12,28 @@ const gravity = 0.5;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 
+var can_jump = false;
+
 class Button {
-    constructor(label, color, width, height, textcolor = "#000000", textsize = 24) {
+    constructor(label, color, width, height, x, y, textcolor = "#000000", textsize = 24) {
         this.label = label;
         this.width = width;
         this.height = height;
         this.color = color;
         this.textcolor = textcolor;
         this.textsize = textsize;
+        this.x = x
+        this.y = y
+
+        addEventListener('mouseup', this.mouseup.bind(this))
     }
 
-    draw(ctx, x, y) {
+    draw(ctx) {
         ctx.lineWidth = 1;
         ctx.fillStyle = this.color;
         ctx.strokeStyle = this.textcolor;
 
-        ctx.fillRect(x, y, this.width, this.height)
+        ctx.fillRect(this.x, this.y, this.width, this.height)
 
         ctx.fillStyle = this.textcolor;
         ctx.font = this.textsize + "px sans-serif"
@@ -36,10 +42,23 @@ class Button {
 
         ctx.fillText(
             this.label,
-            x + (this.width - rktmtx.width) / 2,
-            y + (rktmtx.actualBoundingBoxAscent + this.height) / 2
+            this.x + (this.width - rktmtx.width) / 2,
+            this.y + (rktmtx.actualBoundingBoxAscent + this.height) / 2
         )
-     }
+    }
+
+    onmouseup(a) {
+        
+    }
+
+    mouseup(a) {
+        let x = a.clientX
+        let y = a.clientY
+
+        if(x > this.x && y > this.y && x < this.x + this.width && y < this.y + this.height) {
+            this.onmouseup(a);
+        }
+    }
 }
 
 //классы всех объектов от игрока до платформ
@@ -120,9 +139,10 @@ class Platform{
         this.height = this.image.height;
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height)
     }
+
     update(){}
 }
 
@@ -134,14 +154,16 @@ class GenObj{
       image: backgr
     }
   }
+  
   draw(){
-    ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height)}
-
+    ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height)
+  }
 }
 
 function createImage(imgSrc){
   const image = new Image();
   image.src = imgSrc;
+
   return image;
 }
 
@@ -152,19 +174,19 @@ let genobj = [new GenObj(-1, -1)];
 let player = new Player();
 let enemy = new Enemy();
 let platform = [
-new Platform(0, 450),
-new Platform(PlatformImage.width - 80, 750),
-new Platform(1200, 450)
+    new Platform(0, 450),
+    new Platform(PlatformImage.width - 80, 750),
+    new Platform(1200, 450)
 ];
 
 
 const keys = {
-rigth:{
-    pressed: false
-},
-left:{
-    pressed: false
-}
+    right:{
+        pressed: false
+    },
+    left:{
+        pressed: false
+    }
 }
 
 
@@ -194,73 +216,72 @@ function respawn(hp){
 
 function anim(){
     if(player.hp >= 0){
-    requestAnimationFrame(anim);
-    ctx.fillStyle = 'white'
-    ctx.fillRect(0, 0, cumvas.width, cumvas.height);
-    genobj.forEach((genobj) =>{
-      genobj.draw();
-    })
-
-    platform.forEach(platform => {
-        platform.draw();
-    })
-    player.update();
-    if(scrolloff > 8000){
-        enemy.update();
-    }
-
-    if(keys.left.pressed && player.pos.x > 8000){
-        player.vel.x = 0;
-    }
-
-    // проверки управления, создание границ и не только
-    if(keys.rigth.pressed && player.pos.x < 400){
-        player.vel.x = 5;
-    }
-    else if(keys.left.pressed && player.pos.x > 100){
-        player.vel.x = -5;
-    }
-    else player.vel.x = 0
-    
-    if(keys.rigth.pressed){
-        platform.forEach(platform => {
-            scrolloff += 5;
-            platform.pos.x -= 10;
-        })
-    }
-    else if(keys.left.pressed){
-        platform.forEach(platform => {
-            scrolloff -= 5;
-            platform.pos.x += 10;
+        requestAnimationFrame(anim);
+        ctx.fillStyle = 'white'
+        ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+        genobj.forEach((genobj) =>{
+        genobj.draw();
         })
 
-    }
+        platform.forEach(platform => {
+            platform.draw();
+        })
+        player.update();
+        if(scrolloff > 8000){
+            enemy.update();
+        }
 
-    console.log(scrolloff)
+        if(keys.left.pressed && player.pos.x > 8000){
+            player.vel.x = 0;
+        }
 
-    if(scrolloff > 8000){
-        console.log("BossTime");
-        activate_enemy = true;
-    }
+        if(keys.right.pressed && player.pos.x < 400){
+            player.vel.x = 5;
+        }
+        else if(keys.left.pressed && player.pos.x > 100){
+            player.vel.x = -5;
+        }
+        else {
+            player.vel.x = 0
+        }
+        
+        if(keys.right.pressed){
+            platform.forEach(platform => {
+                scrolloff += 5;
+                platform.pos.x -= 10;
+            })
+        }
+        else if(keys.left.pressed){
+            platform.forEach(platform => {
+                scrolloff -= 5;
+                platform.pos.x += 10;
+            })
 
-    if(player.pos.y > cumvas.height){
-        respawn(player.hp - 1);
-        console.log(player.hp);
-    }
+        }
 
-    // проверка платформы
-    platform.forEach(platform => {
-    if((player.pos.y + player.height <= platform.pos.y)
-        && (player.pos.y + player.height + player.vel.y >= platform.pos.y)
-        && (player.pos.x + player.width >= platform.pos.x)
-        && (player.pos.x <= platform.pos.x + platform.width)
-        ){
-        player.vel.y = 0;
-    }
-    })}
-    //Проиграли
-    else{
-        ctx.clearRect(0,0, cumvas.width, cumvas.height); 
+        if(scrolloff > 8000){
+            console.log("BossTime");
+            activate_enemy = true;
+        }
+
+        if(player.pos.y > cumvas.height){
+            respawn(player.hp - 1);
+            console.log(player.hp);
+        }
+
+        // проверка платформы
+        platform.forEach(platform => {
+            if((player.pos.y + player.height <= platform.pos.y)
+                && (player.pos.y + player.height + player.vel.y >= platform.pos.y)
+                && (player.pos.x + player.width >= platform.pos.x)
+                && (player.pos.x <= platform.pos.x + platform.width)
+                ) {
+                can_jump = true;
+                player.vel.y = 0;
+            }
+        })
+    } else {
+        ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
         console.log("Game Over");
         ctx.fillStyle = 'White';
         rect = ctx.fillRect(400, 200, cumvas.width/2, cumvas.height/2);
@@ -269,8 +290,6 @@ function anim(){
 }
 
 ///Здесь начинается Веселуха для меню
-
-let can_jump = true;
 
 let start_game = () => {
     player.update(); 
@@ -297,7 +316,7 @@ let start_game = () => {
 
         case 68:
             console.log('вправо')
-            keys.rigth.pressed = true;
+            keys.right.pressed = true;
             break;
     }   
     })
@@ -306,7 +325,6 @@ let start_game = () => {
         switch(keyCode){
             case 87: 
                 console.log('Вверх действие завершено');
-                can_jump = true;
                 break;
             case 83:
                 console.log('down end');
@@ -317,30 +335,29 @@ let start_game = () => {
                 break;
             case 68:
                 console.log('right end');
-                keys.rigth.pressed = false;
+                keys.right.pressed = false;
         }
     })
 }
 
-let startbtn = new Button("Start", "#ffffff", 300, 75)
+let startbtn = new Button(
+    "Start",
+    "#ffffff",
+    300,
+    75,
+    0,
+    0
+);
 
-let bx = (cumvas.width - startbtn.width) / 2;
-let by = (cumvas.height - startbtn.height) / 2;
-startbtn.draw(ctx, bx, by);
+startbtn.x = (cumvas.width - startbtn.width) / 2
+startbtn.y = (cumvas.height - startbtn.height) / 2
 
-let mouse_evlis = (a) => {
-    let x = a.clientX
-    let y = a.clientY
-
-    console.log(x, y, bx, by)
-    console.log(x > bx, y > by, x < bx + 300, y < by + 75)
-
-    if(x > bx && y > by && x < bx + 300 && y < by + 75) {
-        removeEventListener('mouseup',mouse_evlis);
-        start_game();
-    }
+startbtn.onmouseup = function(a) {
+    start_game();
+    removeEventListener('mouseup', this.mouseup);
 };
 
-addEventListener('mouseup', mouse_evlis)
+startbtn.draw(ctx);
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
+// Непрограммист и C++'ник фигачат как не в себя
