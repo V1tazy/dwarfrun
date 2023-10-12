@@ -1,6 +1,7 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
 import dwarf from '../image/dwarf.png';
+import logo from '../image/logo.png';
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -358,6 +359,11 @@ startbtn.onmouseup = function(a) {
 };
 
 startbtn.draw(ctx);
+
+
+let logo_img = createImage(logo);
+
+ctx.drawImage(logo_img, 100, 100, 400, 400)
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 // Непрограммист и C++'ник фигачат как не в себя
