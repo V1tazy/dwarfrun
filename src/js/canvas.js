@@ -1,6 +1,6 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
-import gm from '../image/ground_menu.jpg';
+import dwarf from '../image/dwarf.png';
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
