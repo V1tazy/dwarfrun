@@ -112,6 +112,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/image/logo.png":
+/*!****************************!*\
+  !*** ./src/image/logo.png ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "1f41c16c05050d98555a17c14f078266.png");
+
+/***/ }),
+
 /***/ "./src/image/platform.png":
 /*!********************************!*\
   !*** ./src/image/platform.png ***!
@@ -137,12 +150,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_platform_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image/platform.png */ "./src/image/platform.png");
 /* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
 /* harmony import */ var _image_dwarf_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf.png */ "./src/image/dwarf.png");
+/* harmony import */ var _image_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../image/logo.png */ "./src/image/logo.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -402,9 +417,6 @@ function anim() {
     ctx.fillStyle = 'Blue';
   }
 }
-
-///Здесь начинается Веселуха для меню
-
 var start_game = function start_game() {
   player.update();
   anim();
@@ -447,17 +459,23 @@ var start_game = function start_game() {
       case 68:
         console.log('right end');
         keys.right.pressed = false;
+        break;
     }
   });
 };
 var startbtn = new Button("Start", "#ffffff", 300, 75, 0, 0);
+var logo_img = createImage(_image_logo_png__WEBPACK_IMPORTED_MODULE_3__["default"]);
 startbtn.x = (cumvas.width - startbtn.width) / 2;
-startbtn.y = (cumvas.height - startbtn.height) / 2;
+startbtn.y = (cumvas.height - startbtn.height + 200) / 2;
 startbtn.onmouseup = function (a) {
   start_game();
   removeEventListener('mouseup', this.mouseup);
 };
-startbtn.draw(ctx);
+logo_img.addEventListener("load", function () {
+  console.log(logo_img);
+  ctx.drawImage(logo_img, (cumvas.width - logo_img.width) / 2, 0);
+  startbtn.draw(ctx);
+});
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 // Непрограммист и C++'ник фигачат как не в себя

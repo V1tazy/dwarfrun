@@ -1,6 +1,7 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
 import dwarf from '../image/dwarf.png';
+import logo from '../image/logo.png';
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -161,7 +162,7 @@ class GenObj{
 }
 
 function createImage(imgSrc){
-  const image = new Image();
+  let image = new Image();
   image.src = imgSrc;
 
   return image;
@@ -195,7 +196,6 @@ let scrolloff = 0;
 
 
 function respawn(hp){
-
     PlatformImage = createImage(platforms);
 
     genobj = [new GenObj(-1, -1)];
@@ -203,10 +203,10 @@ function respawn(hp){
     player.hp = hp
     enemy = new Enemy();
     platform = [
-    new Platform(0, 450),
-    new Platform(PlatformImage.width - 80, 750),
-    new Platform(1200, 450)
-];
+        new Platform(0, 450),
+        new Platform(PlatformImage.width - 80, 750),
+        new Platform(1200, 450)
+    ];
 //отсчет до босс комнаты
 
     scrolloff = 0;
@@ -289,8 +289,6 @@ function anim(){
     }
 }
 
-///Здесь начинается Веселуха для меню
-
 let start_game = () => {
     player.update(); 
     anim();
@@ -336,6 +334,7 @@ let start_game = () => {
             case 68:
                 console.log('right end');
                 keys.right.pressed = false;
+                break;
         }
     })
 }
@@ -348,16 +347,26 @@ let startbtn = new Button(
     0,
     0
 );
+    
+let logo_img = createImage(logo)
 
 startbtn.x = (cumvas.width - startbtn.width) / 2
-startbtn.y = (cumvas.height - startbtn.height) / 2
+startbtn.y = (cumvas.height - startbtn.height + 200) / 2
 
 startbtn.onmouseup = function(a) {
     start_game();
     removeEventListener('mouseup', this.mouseup);
 };
 
-startbtn.draw(ctx);
+
+
+logo_img.addEventListener("load", () => {
+    console.log(logo_img)
+    
+    ctx.drawImage(logo_img, (cumvas.width - logo_img.width) / 2, 0)
+    
+    startbtn.draw(ctx);
+})
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 // Непрограммист и C++'ник фигачат как не в себя
