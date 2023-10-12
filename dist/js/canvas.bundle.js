@@ -417,9 +417,6 @@ function anim() {
     ctx.fillStyle = 'Blue';
   }
 }
-
-///Здесь начинается Веселуха для меню
-
 var start_game = function start_game() {
   player.update();
   anim();
@@ -462,19 +459,23 @@ var start_game = function start_game() {
       case 68:
         console.log('right end');
         keys.right.pressed = false;
+        break;
     }
   });
 };
 var startbtn = new Button("Start", "#ffffff", 300, 75, 0, 0);
+var logo_img = createImage(_image_logo_png__WEBPACK_IMPORTED_MODULE_3__["default"]);
 startbtn.x = (cumvas.width - startbtn.width) / 2;
-startbtn.y = (cumvas.height - startbtn.height) / 2;
+startbtn.y = (cumvas.height - startbtn.height + 200) / 2;
 startbtn.onmouseup = function (a) {
   start_game();
   removeEventListener('mouseup', this.mouseup);
 };
-startbtn.draw(ctx);
-var logo_img = createImage(_image_logo_png__WEBPACK_IMPORTED_MODULE_3__["default"]);
-ctx.drawImage(logo_img, 100, 100, 400, 400);
+logo_img.addEventListener("load", function () {
+  console.log(logo_img);
+  ctx.drawImage(logo_img, (cumvas.width - logo_img.width) / 2, 0);
+  startbtn.draw(ctx);
+});
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
 // Непрограммист и C++'ник фигачат как не в себя
