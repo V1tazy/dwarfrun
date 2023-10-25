@@ -84,13 +84,11 @@ class Player {
 
     draw(){
         ctx.drawImage(this.image,
-            25 * this.frame, 0, 25 * this.frame, 36,
+            0, 0, 85, 79,
             this.pos.x, this.pos.y, this.width, this.height)
     }
 
     update(){
-        this.frame ++;
-        if(this.frame == 30) this.frame = 0;
         this.pos.y += this.vel.y
         this.pos.x += this.vel.x
         this.draw();

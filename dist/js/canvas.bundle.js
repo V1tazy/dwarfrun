@@ -108,7 +108,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "b2a3aa077e27c9e66d6150d5c5c4df26.png");
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "d11a96c7ff369146ce794c377b451567.png");
 
 /***/ }),
 
@@ -233,13 +233,11 @@ var Player = /*#__PURE__*/function () {
   _createClass(Player, [{
     key: "draw",
     value: function draw() {
-      ctx.drawImage(this.image, 25 * this.frame, 0, 25 * this.frame, 36, this.pos.x, this.pos.y, this.width, this.height);
+      ctx.drawImage(this.image, 0, 0, 85, 79, this.pos.x, this.pos.y, this.width, this.height);
     }
   }, {
     key: "update",
     value: function update() {
-      this.frame++;
-      if (this.frame == 30) this.frame = 0;
       this.pos.y += this.vel.y;
       this.pos.x += this.vel.x;
       this.draw();
