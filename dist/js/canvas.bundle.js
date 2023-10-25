@@ -99,16 +99,16 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/image/dwarf.png":
-/*!*****************************!*\
-  !*** ./src/image/dwarf.png ***!
-  \*****************************/
+/***/ "./src/image/dwarf_right.png":
+/*!***********************************!*\
+  !*** ./src/image/dwarf_right.png ***!
+  \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "6dde7f415aecfec28b2b2cbff7ef79e6.png");
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "b2a3aa077e27c9e66d6150d5c5c4df26.png");
 
 /***/ }),
 
@@ -149,7 +149,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_platform_png__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image/platform.png */ "./src/image/platform.png");
 /* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
-/* harmony import */ var _image_dwarf_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf.png */ "./src/image/dwarf.png");
+/* harmony import */ var _image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf_right.png */ "./src/image/dwarf_right.png");
 /* harmony import */ var _image_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../image/logo.png */ "./src/image/logo.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -225,18 +225,21 @@ var Player = /*#__PURE__*/function () {
       y: 1
     };
     this.width = 100;
-    this.height = 100;
+    this.height = 200;
     this.hp = 3;
+    this.frame = 0;
+    this.image = createImage(_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"]);
   }
   _createClass(Player, [{
     key: "draw",
     value: function draw() {
-      ctx.fillStyle = 'red';
-      ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+      ctx.drawImage(this.image, 25 * this.frame, 0, 25 * this.frame, 36, this.pos.x, this.pos.y, this.width, this.height);
     }
   }, {
     key: "update",
     value: function update() {
+      this.frame++;
+      if (this.frame == 30) this.frame = 0;
       this.pos.y += this.vel.y;
       this.pos.x += this.vel.x;
       this.draw();
@@ -478,7 +481,7 @@ logo_img.addEventListener("load", function () {
 });
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
-// Непрограммист и C++'ник фигачат как не в себя
+// C# enjoyer и C++'ник фигачат как не в себя
 
 /***/ })
 

@@ -1,6 +1,6 @@
 import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
-import dwarf from '../image/dwarf.png';
+import dwarf_right from '../image/dwarf_right.png';
 import logo from '../image/logo.png';
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
@@ -76,16 +76,21 @@ class Player {
         }
         
         this.width = 100
-        this.height = 100
+        this.height = 200
         this.hp = 3
+        this.frame = 0;
+        this.image = createImage(dwarf_right)
     }
 
     draw(){
-        ctx.fillStyle = 'red';
-        ctx.fillRect(this.pos.x, this.pos.y, this.width, this.height);
+        ctx.drawImage(this.image,
+            25 * this.frame, 0, 25 * this.frame, 36,
+            this.pos.x, this.pos.y, this.width, this.height)
     }
 
     update(){
+        this.frame ++;
+        if(this.frame == 30) this.frame = 0;
         this.pos.y += this.vel.y
         this.pos.x += this.vel.x
         this.draw();
@@ -369,4 +374,4 @@ logo_img.addEventListener("load", () => {
 })
 
 /// Здесь у нас начались проблемы с меню и мы начали жестка хардкодить смотреть без регистрации и смс
-// Непрограммист и C++'ник фигачат как не в себя
+// C# enjoyer и C++'ник фигачат как не в себя
