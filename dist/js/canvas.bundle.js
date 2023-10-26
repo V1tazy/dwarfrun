@@ -224,11 +224,11 @@ var Player = /*#__PURE__*/function () {
       x: 0,
       y: 1
     };
-    this.width = 100;
-    this.height = 200;
+    this.image = createImage(_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"]);
+    this.width = this.image.width * 1.25;
+    this.height = this.image.height * 1.25;
     this.hp = 3;
     this.frame = 0;
-    this.image = createImage(_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"]);
   }
   _createClass(Player, [{
     key: "draw",
@@ -359,7 +359,7 @@ function respawn(hp) {
 //запуск loop
 
 function anim() {
-  if (player.hp >= 0) {
+  if (player.hp > 0) {
     requestAnimationFrame(anim);
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, cumvas.width, cumvas.height);
@@ -413,9 +413,10 @@ function anim() {
   } else {
     ctx.clearRect(0, 0, cumvas.width, cumvas.height);
     console.log("Game Over");
-    ctx.fillStyle = 'White';
-    rect = ctx.fillRect(400, 200, cumvas.width / 2, cumvas.height / 2);
-    ctx.fillStyle = 'Blue';
+    ctx.fillStyle = 'white';
+    ctx.fillRect((cumvas.width - 300) / 2, (cumvas.height - 100) / 2, 300, 100);
+    ctx.fillStyle = 'red';
+    ctx.fillText("Game over", cumvas.width / 2, cumvas.height / 2);
   }
 }
 var start_game = function start_game() {
