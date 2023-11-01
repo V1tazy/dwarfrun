@@ -112,6 +112,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/image/hptemplate.png":
+/*!**********************************!*\
+  !*** ./src/image/hptemplate.png ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "a4abfe8c287499ad8f45962116b54bfa.png");
+
+/***/ }),
+
 /***/ "./src/image/logo.png":
 /*!****************************!*\
   !*** ./src/image/logo.png ***!
@@ -151,12 +164,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
 /* harmony import */ var _image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf_right.png */ "./src/image/dwarf_right.png");
 /* harmony import */ var _image_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../image/logo.png */ "./src/image/logo.png");
+/* harmony import */ var _image_hptemplate_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../image/hptemplate.png */ "./src/image/hptemplate.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -248,6 +263,25 @@ var Player = /*#__PURE__*/function () {
   }]);
   return Player;
 }();
+var Heart = /*#__PURE__*/function () {
+  function Heart(x, y) {
+    _classCallCheck(this, Heart);
+    this.pos = {
+      x: x,
+      y: y
+    };
+    this.image = createImage(_image_hptemplate_png__WEBPACK_IMPORTED_MODULE_4__["default"]);
+    this.width = this.image.width;
+    this.height = this.image.height;
+  }
+  _createClass(Heart, [{
+    key: "draw",
+    value: function draw() {
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, 50, 50);
+    }
+  }]);
+  return Heart;
+}();
 var Enemy = /*#__PURE__*/function () {
   function Enemy() {
     _classCallCheck(this, Enemy);
@@ -333,7 +367,8 @@ var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"])
 var genobj = [new GenObj(-1, -1)];
 var player = new Player();
 var enemy = new Enemy();
-var platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
+var hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)];
+var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
 var keys = {
   right: {
     pressed: false
@@ -345,13 +380,14 @@ var keys = {
 
 //отсчет до босс комнаты
 var scrolloff = 0;
-function respawn(hp) {
+function respawn(hp, hp_i) {
   PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
   genobj = [new GenObj(-1, -1)];
   player = new Player();
+  hp_i = hp_i.pop();
   player.hp = hp;
   enemy = new Enemy();
-  platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
+  platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
   //отсчет до босс комнаты
 
   scrolloff = 0;
@@ -359,64 +395,66 @@ function respawn(hp) {
 //запуск loop
 
 function anim() {
-  if (player.hp > 0) {
-    requestAnimationFrame(anim);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, cumvas.width, cumvas.height);
-    genobj.forEach(function (genobj) {
-      genobj.draw();
-    });
-    platform.forEach(function (platform) {
-      platform.draw();
-    });
-    player.update();
-    if (scrolloff > 8000) {
-      enemy.update();
-    }
-    if (keys.left.pressed && player.pos.x > 8000) {
-      player.vel.x = 0;
-    }
-    if (keys.right.pressed && player.pos.x < 400) {
-      player.vel.x = 5;
-    } else if (keys.left.pressed && player.pos.x > 100) {
-      player.vel.x = -5;
-    } else {
-      player.vel.x = 0;
-    }
-    if (keys.right.pressed) {
-      platform.forEach(function (platform) {
-        scrolloff += 5;
-        platform.pos.x -= 10;
+  if (scrolloff < 25000) {
+    if (player.hp > 0) {
+      requestAnimationFrame(anim);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+      genobj.forEach(function (genobj) {
+        genobj.draw();
       });
-    } else if (keys.left.pressed) {
+      console.log(scrolloff);
       platform.forEach(function (platform) {
-        scrolloff -= 5;
-        platform.pos.x += 10;
+        platform.draw();
       });
-    }
-    if (scrolloff > 8000) {
-      console.log("BossTime");
-      activate_enemy = true;
-    }
-    if (player.pos.y > cumvas.height) {
-      respawn(player.hp - 1);
-      console.log(player.hp);
-    }
-
-    // проверка платформы
-    platform.forEach(function (platform) {
-      if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
-        can_jump = true;
-        player.vel.y = 0;
+      hp_i.forEach(function (hp_i) {
+        hp_i.draw();
+      });
+      player.update();
+      if (keys.left.pressed && player.pos.x > 8000) {
+        player.vel.x = 0;
       }
-    });
+      if (keys.right.pressed && player.pos.x < 400) {
+        player.vel.x = 5;
+      } else if (keys.left.pressed && player.pos.x > 100) {
+        player.vel.x = -5;
+      } else {
+        player.vel.x = 0;
+      }
+      if (keys.right.pressed) {
+        platform.forEach(function (platform) {
+          scrolloff += 5;
+          platform.pos.x -= 10;
+        });
+      } else if (keys.left.pressed) {
+        platform.forEach(function (platform) {
+          scrolloff -= 5;
+          platform.pos.x += 10;
+        });
+      }
+      if (player.pos.y > cumvas.height) {
+        respawn(player.hp - 1, hp_i);
+        console.log(player.hp);
+      }
+
+      // проверка платформы
+      platform.forEach(function (platform) {
+        if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
+          can_jump = true;
+          player.vel.y = 0;
+        }
+      });
+    } else {
+      ctx.clearRect(0, 0, cumvas.width, cumvas.height);
+      console.log("Game Over");
+      ctx.fillStyle = 'white';
+      ctx.fillRect((cumvas.width - 300) / 2, (cumvas.height - 100) / 2, 300, 100);
+      ctx.fillStyle = 'red';
+      ctx.fillText("Game over", cumvas.width / 2, cumvas.height / 2);
+    }
   } else {
     ctx.clearRect(0, 0, cumvas.width, cumvas.height);
-    console.log("Game Over");
-    ctx.fillStyle = 'white';
-    ctx.fillRect((cumvas.width - 300) / 2, (cumvas.height - 100) / 2, 300, 100);
-    ctx.fillStyle = 'red';
-    ctx.fillText("Game over", cumvas.width / 2, cumvas.height / 2);
+    console.log("Game win");
   }
 }
 var start_game = function start_game() {

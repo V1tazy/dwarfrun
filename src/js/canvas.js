@@ -2,6 +2,7 @@ import platforms from '../image/platform.png';
 import bg from '../image/BG1.png';
 import dwarf_right from '../image/dwarf_right.png';
 import logo from '../image/logo.png';
+import hp_image from '../image/hptemplate.png' 
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -97,6 +98,22 @@ class Player {
         }
     }
 }
+class Heart{
+    constructor(x, y){
+        this.pos = {
+            x:x,
+            y:y
+        }
+
+        this.image = createImage(hp_image)
+        this.width = this.image.width
+        this.height = this.image.height
+    }
+    draw(){
+        ctx.drawImage(this.image,
+            this.pos.x, this.pos.y, 50, 50)
+    }
+}
 
 class Enemy{
     constructor(){
@@ -177,10 +194,17 @@ const backgr = createImage(bg);
 let genobj = [new GenObj(-1, -1)];
 let player = new Player();
 let enemy = new Enemy();
+let hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)]
 let platform = [
-    new Platform(0, 450),
-    new Platform(PlatformImage.width - 80, 750),
-    new Platform(1200, 450)
+    new Platform(0, cumvas.height - 100),
+    new Platform(PlatformImage.width - 80, cumvas.height - 100),
+    new Platform(1500, cumvas.height - 100),
+    new Platform(2000, cumvas.height - 100),
+    new Platform(2500, cumvas.height - 100),
+    new Platform(3500, cumvas.height - 150),
+    new Platform(4500, cumvas.height - 100),
+    new Platform(5000, cumvas.height - 100),
+    new Platform(6000, cumvas.height - 100)
 ];
 
 
@@ -198,17 +222,24 @@ const keys = {
 let scrolloff = 0;
 
 
-function respawn(hp){
+function respawn(hp, hp_i){
     PlatformImage = createImage(platforms);
 
     genobj = [new GenObj(-1, -1)];
     player = new Player();
+    hp_i = hp_i.pop();
     player.hp = hp
     enemy = new Enemy();
     platform = [
-        new Platform(0, 450),
-        new Platform(PlatformImage.width - 80, 750),
-        new Platform(1200, 450)
+        new Platform(0, cumvas.height - 100),
+        new Platform(PlatformImage.width - 80, cumvas.height - 100),
+        new Platform(1500, cumvas.height - 100),
+        new Platform(2000, cumvas.height - 100),
+        new Platform(2500, cumvas.height - 100),
+        new Platform(3500, cumvas.height - 150),
+        new Platform(4500, cumvas.height - 100),
+        new Platform(5000, cumvas.height - 100),
+        new Platform(6000, cumvas.height - 100)
     ];
 //отсчет до босс комнаты
 
@@ -218,6 +249,7 @@ function respawn(hp){
 
 
 function anim(){
+    if(scrolloff < 25000){
     if(player.hp > 0){
         requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
@@ -225,14 +257,12 @@ function anim(){
         genobj.forEach((genobj) =>{
         genobj.draw();
         })
-
+        console.log(scrolloff);
         platform.forEach(platform => {
             platform.draw();
         })
+        hp_i.forEach(hp_i => {hp_i.draw()})
         player.update();
-        if(scrolloff > 8000){
-            enemy.update();
-        }
 
         if(keys.left.pressed && player.pos.x > 8000){
             player.vel.x = 0;
@@ -262,13 +292,10 @@ function anim(){
 
         }
 
-        if(scrolloff > 8000){
-            console.log("BossTime");
-            activate_enemy = true;
-        }
+
 
         if(player.pos.y > cumvas.height){
-            respawn(player.hp - 1);
+            respawn(player.hp - 1, hp_i);
             console.log(player.hp);
         }
 
@@ -283,7 +310,8 @@ function anim(){
                 player.vel.y = 0;
             }
         })
-    } else {
+    }
+    else {
         ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
         console.log("Game Over");
         ctx.fillStyle = 'white';
@@ -293,6 +321,11 @@ function anim(){
         ctx.fillStyle = 'red'
         ctx.fillText("Game over", cumvas.width / 2, cumvas.height / 2);
     }
+}
+else{
+    ctx.clearRect(0,0, cumvas.width, cumvas.height);
+    console.log("Game win");
+}
 }
 
 let start_game = () => {
