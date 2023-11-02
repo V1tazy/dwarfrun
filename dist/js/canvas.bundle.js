@@ -203,6 +203,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/image/hptemplate.png":
+/*!**********************************!*\
+  !*** ./src/image/hptemplate.png ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "a4abfe8c287499ad8f45962116b54bfa.png");
+
+/***/ }),
+
 /***/ "./src/image/logo.png":
 /*!****************************!*\
   !*** ./src/image/logo.png ***!
@@ -242,13 +255,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_BG1_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../image/BG1.png */ "./src/image/BG1.png");
 /* harmony import */ var _image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf_right.png */ "./src/image/dwarf_right.png");
 /* harmony import */ var _image_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../image/logo.png */ "./src/image/logo.png");
-/* harmony import */ var _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../image/dwarf_right1.png */ "./src/image/dwarf_right1.png");
-/* harmony import */ var _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../image/dwarf_right2.png */ "./src/image/dwarf_right2.png");
-/* harmony import */ var _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../image/dwarf_right3.png */ "./src/image/dwarf_right3.png");
-/* harmony import */ var _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../image/dwarf_right4.png */ "./src/image/dwarf_right4.png");
-/* harmony import */ var _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../image/dwarf_right5.png */ "./src/image/dwarf_right5.png");
-/* harmony import */ var _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../image/dwarf_right6.png */ "./src/image/dwarf_right6.png");
-/* harmony import */ var _image_dwarf_right7_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../image/dwarf_right7.png */ "./src/image/dwarf_right7.png");
+/* harmony import */ var _image_hptemplate_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../image/hptemplate.png */ "./src/image/hptemplate.png");
+/* harmony import */ var _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../image/dwarf_right1.png */ "./src/image/dwarf_right1.png");
+/* harmony import */ var _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../image/dwarf_right2.png */ "./src/image/dwarf_right2.png");
+/* harmony import */ var _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../image/dwarf_right3.png */ "./src/image/dwarf_right3.png");
+/* harmony import */ var _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../image/dwarf_right4.png */ "./src/image/dwarf_right4.png");
+/* harmony import */ var _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../image/dwarf_right5.png */ "./src/image/dwarf_right5.png");
+/* harmony import */ var _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../image/dwarf_right6.png */ "./src/image/dwarf_right6.png");
+/* harmony import */ var _image_dwarf_right7_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../image/dwarf_right7.png */ "./src/image/dwarf_right7.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -268,16 +282,18 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
+
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
 
 var cumvas = document.querySelector('canvas');
 var ctx = cumvas.getContext('2d');
 var gravity = 0.5;
+ctx.imageSmoothingEnabled = false;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 var can_jump = false;
-var main_sprites = [_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"], _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_4__["default"], _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_5__["default"], _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_6__["default"], _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_7__["default"], _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_8__["default"], _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_9__["default"]];
+var main_sprites = [_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"], _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_5__["default"], _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_6__["default"], _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_7__["default"], _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_8__["default"], _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_9__["default"], _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_10__["default"]];
 var Button = /*#__PURE__*/function () {
   function Button(label, color, width, height, x, y) {
     var textcolor = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "#000000";
@@ -367,6 +383,25 @@ var Player = /*#__PURE__*/function () {
   }]);
   return Player;
 }();
+var Heart = /*#__PURE__*/function () {
+  function Heart(x, y) {
+    _classCallCheck(this, Heart);
+    this.pos = {
+      x: x,
+      y: y
+    };
+    this.image = createImage(_image_hptemplate_png__WEBPACK_IMPORTED_MODULE_4__["default"]);
+    this.width = this.image.width;
+    this.height = this.image.height;
+  }
+  _createClass(Heart, [{
+    key: "draw",
+    value: function draw() {
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, 50, 50);
+    }
+  }]);
+  return Heart;
+}();
 var Enemy = /*#__PURE__*/function () {
   function Enemy() {
     _classCallCheck(this, Enemy);
@@ -452,7 +487,8 @@ var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"])
 var genobj = [new GenObj(-1, -1)];
 var player = new Player();
 var enemy = new Enemy();
-var platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
+var hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)];
+var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
 var keys = {
   right: {
     pressed: false
@@ -464,13 +500,14 @@ var keys = {
 
 //отсчет до босс комнаты
 var scrolloff = 0;
-function respawn(hp) {
+function respawn(hp, hp_i) {
   PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
   genobj = [new GenObj(-1, -1)];
   player = new Player();
+  hp_i = hp_i.pop();
   player.hp = hp;
   enemy = new Enemy();
-  platform = [new Platform(0, 450), new Platform(PlatformImage.width - 80, 750), new Platform(1200, 450)];
+  platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
   //отсчет до босс комнаты
 
   scrolloff = 0;
@@ -478,69 +515,71 @@ function respawn(hp) {
 //запуск loop
 
 function anim() {
-  if (player.hp > 0) {
-    requestAnimationFrame(anim);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, cumvas.width, cumvas.height);
-    genobj.forEach(function (genobj) {
-      genobj.draw();
-    });
-    platform.forEach(function (platform) {
-      platform.draw();
-    });
-    player.update();
-    if (scrolloff > 8000) {
-      enemy.update();
-    }
-    if (keys.left.pressed && player.pos.x > 8000) {
-      player.vel.x = 0;
-    }
-    if (keys.right.pressed && player.pos.x < 400) {
-      player.vel.x = 5;
-    } else if (keys.left.pressed && player.pos.x > 100) {
-      player.vel.x = -5;
-    } else {
-      player.vel.x = 0;
-    }
-    if (keys.right.pressed) {
-      platform.forEach(function (platform) {
-        scrolloff += 5;
-        platform.pos.x -= 10;
+  if (scrolloff < 25000) {
+    if (player.hp > 0) {
+      requestAnimationFrame(anim);
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+      genobj.forEach(function (genobj) {
+        genobj.draw();
       });
-    } else if (keys.left.pressed) {
+      console.log(scrolloff);
       platform.forEach(function (platform) {
-        scrolloff -= 5;
-        platform.pos.x += 10;
+        platform.draw();
       });
-    }
-    if (scrolloff > 8000) {
-      console.log("BossTime");
-      activate_enemy = true;
-    }
-    if (player.pos.y > cumvas.height) {
-      respawn(player.hp - 1);
-      console.log(player.hp);
-    }
-
-    // проверка платформы
-    platform.forEach(function (platform) {
-      if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
-        can_jump = true;
-        player.vel.y = 0;
+      hp_i.forEach(function (hp_i) {
+        hp_i.draw();
+      });
+      player.update();
+      if (keys.left.pressed && player.pos.x > 8000) {
+        player.vel.x = 0;
       }
-    });
+      if (keys.right.pressed && player.pos.x < 400) {
+        player.vel.x = 5;
+      } else if (keys.left.pressed && player.pos.x > 100) {
+        player.vel.x = -5;
+      } else {
+        player.vel.x = 0;
+      }
+      if (keys.right.pressed) {
+        platform.forEach(function (platform) {
+          scrolloff += 5;
+          platform.pos.x -= 10;
+        });
+      } else if (keys.left.pressed) {
+        platform.forEach(function (platform) {
+          scrolloff -= 5;
+          platform.pos.x += 10;
+        });
+      }
+      if (player.pos.y > cumvas.height) {
+        respawn(player.hp - 1, hp_i);
+        console.log(player.hp);
+      }
+
+      // проверка платформы
+      platform.forEach(function (platform) {
+        if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
+          can_jump = true;
+          player.vel.y = 0;
+        }
+      });
+    } else {
+      ctx.clearRect(0, 0, cumvas.width, cumvas.height);
+      console.log("Game Over");
+      ctx.fillStyle = 'white';
+      var w = 300;
+      var h = 100;
+      var xa = (cumvas.width - w) / 2;
+      var ya = (cumvas.height - h) / 2;
+      ctx.fillRect(xa, ya, w, h);
+      ctx.fillStyle = 'red';
+      var text = ctx.measureText("Game over");
+      ctx.fillText("Game over", xa + text.width / 1.5, ya + text.actualBoundingBoxAscent * 3);
+    }
   } else {
     ctx.clearRect(0, 0, cumvas.width, cumvas.height);
-    console.log("Game Over");
-    ctx.fillStyle = 'white';
-    var w = 300;
-    var h = 100;
-    var xa = (cumvas.width - w) / 2;
-    var ya = (cumvas.height - h) / 2;
-    ctx.fillRect(xa, ya, w, h);
-    ctx.fillStyle = 'red';
-    var text = ctx.measureText("Game over");
-    ctx.fillText("Game over", xa + text.width / 1.5, ya + text.actualBoundingBoxAscent * 3);
+    console.log("Game win");
   }
 }
 var game_started = false;
