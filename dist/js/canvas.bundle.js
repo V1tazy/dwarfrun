@@ -108,7 +108,98 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "d11a96c7ff369146ce794c377b451567.png");
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "1b85c1972c9d9b68a78b6f4494024252.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right1.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right1.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "ed1a3c851d566b65f12e17eb9774ec2f.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right2.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right2.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "8c89df473ea6d88dce6c25c235f75b16.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right3.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right3.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "c5769c60fc9d41270c3b0c66cce136c6.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right4.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right4.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "bec227475dd7a17043df8eb85e97c1fe.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right5.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right5.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "dc411adbb02fda73395ba46309c2d5d4.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right6.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right6.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "832573e38efa788c55653c58362a9a3f.png");
+
+/***/ }),
+
+/***/ "./src/image/dwarf_right7.png":
+/*!************************************!*\
+  !*** ./src/image/dwarf_right7.png ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "154cc5668d18e5de3eb3f6c9bcfdbe39.png");
 
 /***/ }),
 
@@ -165,6 +256,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf_right.png */ "./src/image/dwarf_right.png");
 /* harmony import */ var _image_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../image/logo.png */ "./src/image/logo.png");
 /* harmony import */ var _image_hptemplate_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../image/hptemplate.png */ "./src/image/hptemplate.png");
+/* harmony import */ var _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../image/dwarf_right1.png */ "./src/image/dwarf_right1.png");
+/* harmony import */ var _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../image/dwarf_right2.png */ "./src/image/dwarf_right2.png");
+/* harmony import */ var _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../image/dwarf_right3.png */ "./src/image/dwarf_right3.png");
+/* harmony import */ var _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../image/dwarf_right4.png */ "./src/image/dwarf_right4.png");
+/* harmony import */ var _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../image/dwarf_right5.png */ "./src/image/dwarf_right5.png");
+/* harmony import */ var _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../image/dwarf_right6.png */ "./src/image/dwarf_right6.png");
+/* harmony import */ var _image_dwarf_right7_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../image/dwarf_right7.png */ "./src/image/dwarf_right7.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -177,15 +275,25 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
+
+
+
+
+
+
+
+
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
 
 var cumvas = document.querySelector('canvas');
 var ctx = cumvas.getContext('2d');
 var gravity = 0.5;
+ctx.imageSmoothingEnabled = false;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 var can_jump = false;
+var main_sprites = [_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"], _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_5__["default"], _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_6__["default"], _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_7__["default"], _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_8__["default"], _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_9__["default"], _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_10__["default"]];
 var Button = /*#__PURE__*/function () {
   function Button(label, color, width, height, x, y) {
     var textcolor = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "#000000";
@@ -239,26 +347,38 @@ var Player = /*#__PURE__*/function () {
       x: 0,
       y: 1
     };
-    this.image = createImage(_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"]);
-    this.width = this.image.width * 1.25;
-    this.height = this.image.height * 1.25;
-    this.hp = 3;
     this.frame = 0;
+    this.frames = main_sprites.map(function (x) {
+      return createImage(x);
+    });
+    console.log(this.frames);
+    this.image = this.frames[this.frame];
+    this.width = this.image.width * 4;
+    this.height = this.image.height * 4;
+    this.hp = 3;
   }
   _createClass(Player, [{
     key: "draw",
     value: function draw() {
-      ctx.drawImage(this.image, 0, 0, 85, 79, this.pos.x, this.pos.y, this.width, this.height);
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, this.width, this.height);
     }
   }, {
     key: "update",
     value: function update() {
+      // this.image = this.frames[this.frame];
+
       this.pos.y += this.vel.y;
       this.pos.x += this.vel.x;
       this.draw();
       if (this.pos.y + this.height + this.vel.y <= cumvas.height) {
         this.vel.y += gravity;
       }
+
+      // if(this.frame > this.frames.length - 1) {
+      //     this.frame = 0
+      // } else {
+      //     this.frame += 1
+      // }
     }
   }]);
   return Player;
@@ -448,16 +568,24 @@ function anim() {
       ctx.clearRect(0, 0, cumvas.width, cumvas.height);
       console.log("Game Over");
       ctx.fillStyle = 'white';
-      ctx.fillRect((cumvas.width - 300) / 2, (cumvas.height - 100) / 2, 300, 100);
+      var w = 300;
+      var h = 100;
+      var xa = (cumvas.width - w) / 2;
+      var ya = (cumvas.height - h) / 2;
+      ctx.fillRect(xa, ya, w, h);
       ctx.fillStyle = 'red';
-      ctx.fillText("Game over", cumvas.width / 2, cumvas.height / 2);
+      var text = ctx.measureText("Game over");
+      ctx.fillText("Game over", xa + text.width / 1.5, ya + text.actualBoundingBoxAscent * 3);
     }
   } else {
     ctx.clearRect(0, 0, cumvas.width, cumvas.height);
     console.log("Game win");
   }
 }
+var game_started = false;
 var start_game = function start_game() {
+  if (game_started) return;
+  game_started = true;
   player.update();
   anim();
   addEventListener('keydown', function (_ref) {
@@ -508,8 +636,9 @@ var logo_img = createImage(_image_logo_png__WEBPACK_IMPORTED_MODULE_3__["default
 startbtn.x = (cumvas.width - startbtn.width) / 2;
 startbtn.y = (cumvas.height - startbtn.height + 200) / 2;
 startbtn.onmouseup = function (a) {
-  start_game();
+  removeEventListener('mouseup', this.onmouseup);
   removeEventListener('mouseup', this.mouseup);
+  start_game();
 };
 logo_img.addEventListener("load", function () {
   console.log(logo_img);

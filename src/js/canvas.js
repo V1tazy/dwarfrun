@@ -4,6 +4,15 @@ import dwarf_right from '../image/dwarf_right.png';
 import logo from '../image/logo.png';
 import hp_image from '../image/hptemplate.png' 
 
+import dwarf1 from '../image/dwarf_right.png'
+import dwarf2 from '../image/dwarf_right1.png'
+import dwarf3 from '../image/dwarf_right2.png'
+import dwarf4 from '../image/dwarf_right3.png'
+import dwarf5 from '../image/dwarf_right4.png'
+import dwarf6 from '../image/dwarf_right5.png'
+import dwarf7 from '../image/dwarf_right6.png'
+import dwarf8 from '../image/dwarf_right7.png'
+
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
 
@@ -11,10 +20,22 @@ const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
 const gravity = 0.5;
 
+ctx.imageSmoothingEnabled = false;
+
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 
 var can_jump = false;
+
+var main_sprites = [
+    dwarf1,
+    dwarf2,
+    dwarf3,
+    dwarf4,
+    dwarf5,
+    dwarf6,
+    dwarf7
+]
 
 class Button {
     constructor(label, color, width, height, x, y, textcolor = "#000000", textsize = 24) {
@@ -76,26 +97,37 @@ class Player {
             y: 1
         }
 
-        this.image = createImage(dwarf_right)   
-        this.width = this.image.width * 1.25
-        this.height = this.image.height * 1.25
-        this.hp = 3
         this.frame = 0
+        this.frames = main_sprites.map(x => createImage(x))
+
+        console.log(this.frames)
+        this.image = this.frames[this.frame]
+        this.width = this.image.width * 4
+        this.height = this.image.height * 4
+        this.hp = 3
     }
 
     draw(){
-        ctx.drawImage(this.image,
-            0, 0, 85, 79,
+        ctx.drawImage(
+            this.image,
             this.pos.x, this.pos.y, this.width, this.height)
     }
 
     update(){
+        // this.image = this.frames[this.frame];
+
         this.pos.y += this.vel.y
         this.pos.x += this.vel.x
         this.draw()
         if(this.pos.y + this.height + this.vel.y <= cumvas.height){
             this.vel.y += gravity
         }
+
+        // if(this.frame > this.frames.length - 1) {
+        //     this.frame = 0
+        // } else {
+        //     this.frame += 1
+        // }
     }
 }
 class Heart{
@@ -316,10 +348,22 @@ function anim(){
         console.log("Game Over");
         ctx.fillStyle = 'white';
 
-        ctx.fillRect((cumvas.width - 300) / 2, (cumvas.height - 100) / 2, 300, 100);
+        let w = 300
+        let h = 100
+        let xa = (cumvas.width - w) / 2
+        let ya = (cumvas.height - h) / 2
+
+        ctx.fillRect(xa, ya, w, h);
 
         ctx.fillStyle = 'red'
-        ctx.fillText("Game over", cumvas.width / 2, cumvas.height / 2);
+
+        let text = ctx.measureText("Game over")
+
+        ctx.fillText(
+            "Game over",
+            xa + text.width / 1.5,
+            ya + (text.actualBoundingBoxAscent * 3)
+        );
     }
 }
 else{
@@ -328,7 +372,13 @@ else{
 }
 }
 
+let game_started = false;
+
 let start_game = () => {
+    if(game_started)
+        return;
+
+    game_started = true;
     player.update(); 
     anim();
 
@@ -393,11 +443,10 @@ startbtn.x = (cumvas.width - startbtn.width) / 2
 startbtn.y = (cumvas.height - startbtn.height + 200) / 2
 
 startbtn.onmouseup = function(a) {
-    start_game();
+    removeEventListener('mouseup', this.onmouseup);
     removeEventListener('mouseup', this.mouseup);
+    start_game();
 };
-
-
 
 logo_img.addEventListener("load", () => {
     console.log(logo_img)
