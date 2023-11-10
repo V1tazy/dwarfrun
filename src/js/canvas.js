@@ -3,7 +3,7 @@ import bg from '../image/BG1.png';
 import dwarf_right from '../image/dwarf_right.png';
 import logo from '../image/logo.png';
 import hp_image from '../image/hptemplate.png' 
-
+import spike_img from '../image/spike.png'
 import dwarf1 from '../image/dwarf_right.png'
 import dwarf2 from '../image/dwarf_right1.png'
 import dwarf3 from '../image/dwarf_right2.png'
@@ -88,8 +88,8 @@ class Button {
 class Player {
     constructor() {
         this.pos = {
-            x: 100,
-            y: 100,
+            x: 0,
+            y: 1,
         }
 
         this.vel = {
@@ -130,11 +130,27 @@ class Player {
         // }
     }
 }
+
+class Spike{
+    constructor(x, y){
+        this.pos = {
+            x,
+            y
+        }
+        this.image = createImage(spike_img)
+    }
+    draw() {
+        ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height)
+    }
+
+    update(){}
+}
+
 class Heart{
     constructor(x, y){
         this.pos = {
-            x:x,
-            y:y
+            x,
+            y
         }
 
         this.image = createImage(hp_image)
@@ -238,6 +254,7 @@ let platform = [
     new Platform(5000, cumvas.height - 100),
     new Platform(6000, cumvas.height - 100)
 ];
+let spike = [new Spike(300, cumvas.height - 140)];
 
 
 const keys = {
@@ -273,6 +290,7 @@ function respawn(hp, hp_i){
         new Platform(5000, cumvas.height - 100),
         new Platform(6000, cumvas.height - 100)
     ];
+    spike = [new Spike(300, cumvas.height - 140)]
 //отсчет до босс комнаты
 
     scrolloff = 0;
@@ -289,9 +307,11 @@ function anim(){
         genobj.forEach((genobj) =>{
         genobj.draw();
         })
-        console.log(scrolloff);
         platform.forEach(platform => {
             platform.draw();
+        })
+        spike.forEach(spike => {
+            spike.draw();
         })
         hp_i.forEach(hp_i => {hp_i.draw()})
         player.update();
@@ -315,11 +335,17 @@ function anim(){
                 scrolloff += 5;
                 platform.pos.x -= 10;
             })
+            spike.forEach(spike => {
+                spike.pos.x -= 10;
+            })
         }
         else if(keys.left.pressed){
             platform.forEach(platform => {
                 scrolloff -= 5;
                 platform.pos.x += 10;
+            })
+            spike.forEach(spike => {
+                spike.pos.x += 10;
             })
 
         }
@@ -340,6 +366,18 @@ function anim(){
                 ) {
                 can_jump = true;
                 player.vel.y = 0;
+            }
+        })
+        spike.forEach(spike => {
+            // console.log(spike)
+            let intersects_by_x = (player.pos.x + player.width >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width);
+            let intersects_by_y = (cumvas.height - player.pos.y <= (cumvas.height - spike.pos.y) + spike.image.height * 2);
+
+            console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
+            if(intersects_by_x
+            && intersects_by_y){
+                respawn(player.hp - 1, hp_i)
+                console.log(player.hp)
             }
         })
     }

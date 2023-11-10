@@ -242,6 +242,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/image/spike.png":
+/*!*****************************!*\
+  !*** ./src/image/spike.png ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "493331223def1ecc10fc487331f6164e.png");
+
+/***/ }),
+
 /***/ "./src/js/canvas.js":
 /*!**************************!*\
   !*** ./src/js/canvas.js ***!
@@ -256,19 +269,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../image/dwarf_right.png */ "./src/image/dwarf_right.png");
 /* harmony import */ var _image_logo_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../image/logo.png */ "./src/image/logo.png");
 /* harmony import */ var _image_hptemplate_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../image/hptemplate.png */ "./src/image/hptemplate.png");
-/* harmony import */ var _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../image/dwarf_right1.png */ "./src/image/dwarf_right1.png");
-/* harmony import */ var _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../image/dwarf_right2.png */ "./src/image/dwarf_right2.png");
-/* harmony import */ var _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../image/dwarf_right3.png */ "./src/image/dwarf_right3.png");
-/* harmony import */ var _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../image/dwarf_right4.png */ "./src/image/dwarf_right4.png");
-/* harmony import */ var _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../image/dwarf_right5.png */ "./src/image/dwarf_right5.png");
-/* harmony import */ var _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../image/dwarf_right6.png */ "./src/image/dwarf_right6.png");
-/* harmony import */ var _image_dwarf_right7_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../image/dwarf_right7.png */ "./src/image/dwarf_right7.png");
+/* harmony import */ var _image_spike_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../image/spike.png */ "./src/image/spike.png");
+/* harmony import */ var _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../image/dwarf_right1.png */ "./src/image/dwarf_right1.png");
+/* harmony import */ var _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../image/dwarf_right2.png */ "./src/image/dwarf_right2.png");
+/* harmony import */ var _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../image/dwarf_right3.png */ "./src/image/dwarf_right3.png");
+/* harmony import */ var _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../image/dwarf_right4.png */ "./src/image/dwarf_right4.png");
+/* harmony import */ var _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../image/dwarf_right5.png */ "./src/image/dwarf_right5.png");
+/* harmony import */ var _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../image/dwarf_right6.png */ "./src/image/dwarf_right6.png");
+/* harmony import */ var _image_dwarf_right7_png__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../image/dwarf_right7.png */ "./src/image/dwarf_right7.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -293,7 +308,7 @@ ctx.imageSmoothingEnabled = false;
 cumvas.width = window.innerWidth;
 cumvas.height = window.innerHeight;
 var can_jump = false;
-var main_sprites = [_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"], _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_5__["default"], _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_6__["default"], _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_7__["default"], _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_8__["default"], _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_9__["default"], _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_10__["default"]];
+var main_sprites = [_image_dwarf_right_png__WEBPACK_IMPORTED_MODULE_2__["default"], _image_dwarf_right1_png__WEBPACK_IMPORTED_MODULE_6__["default"], _image_dwarf_right2_png__WEBPACK_IMPORTED_MODULE_7__["default"], _image_dwarf_right3_png__WEBPACK_IMPORTED_MODULE_8__["default"], _image_dwarf_right4_png__WEBPACK_IMPORTED_MODULE_9__["default"], _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_10__["default"], _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_11__["default"]];
 var Button = /*#__PURE__*/function () {
   function Button(label, color, width, height, x, y) {
     var textcolor = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : "#000000";
@@ -340,8 +355,8 @@ var Player = /*#__PURE__*/function () {
   function Player() {
     _classCallCheck(this, Player);
     this.pos = {
-      x: 100,
-      y: 100
+      x: 0,
+      y: 1
     };
     this.vel = {
       x: 0,
@@ -382,6 +397,26 @@ var Player = /*#__PURE__*/function () {
     }
   }]);
   return Player;
+}();
+var Spike = /*#__PURE__*/function () {
+  function Spike(x, y) {
+    _classCallCheck(this, Spike);
+    this.pos = {
+      x: x,
+      y: y
+    };
+    this.image = createImage(_image_spike_png__WEBPACK_IMPORTED_MODULE_5__["default"]);
+  }
+  _createClass(Spike, [{
+    key: "draw",
+    value: function draw() {
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height);
+    }
+  }, {
+    key: "update",
+    value: function update() {}
+  }]);
+  return Spike;
 }();
 var Heart = /*#__PURE__*/function () {
   function Heart(x, y) {
@@ -489,6 +524,7 @@ var player = new Player();
 var enemy = new Enemy();
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)];
 var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
+var spike = [new Spike(300, cumvas.height - 140)];
 var keys = {
   right: {
     pressed: false
@@ -508,6 +544,7 @@ function respawn(hp, hp_i) {
   player.hp = hp;
   enemy = new Enemy();
   platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
+  spike = [new Spike(300, cumvas.height - 140)];
   //отсчет до босс комнаты
 
   scrolloff = 0;
@@ -523,9 +560,11 @@ function anim() {
       genobj.forEach(function (genobj) {
         genobj.draw();
       });
-      console.log(scrolloff);
       platform.forEach(function (platform) {
         platform.draw();
+      });
+      spike.forEach(function (spike) {
+        spike.draw();
       });
       hp_i.forEach(function (hp_i) {
         hp_i.draw();
@@ -546,10 +585,16 @@ function anim() {
           scrolloff += 5;
           platform.pos.x -= 10;
         });
+        spike.forEach(function (spike) {
+          spike.pos.x -= 10;
+        });
       } else if (keys.left.pressed) {
         platform.forEach(function (platform) {
           scrolloff -= 5;
           platform.pos.x += 10;
+        });
+        spike.forEach(function (spike) {
+          spike.pos.x += 10;
         });
       }
       if (player.pos.y > cumvas.height) {
@@ -562,6 +607,16 @@ function anim() {
         if (player.pos.y + player.height <= platform.pos.y && player.pos.y + player.height + player.vel.y >= platform.pos.y && player.pos.x + player.width >= platform.pos.x && player.pos.x <= platform.pos.x + platform.width) {
           can_jump = true;
           player.vel.y = 0;
+        }
+      });
+      spike.forEach(function (spike) {
+        // console.log(spike)
+        var intersects_by_x = player.pos.x + player.width >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width;
+        var intersects_by_y = cumvas.height - player.pos.y <= cumvas.height - spike.pos.y + spike.image.height * 2;
+        console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x]);
+        if (intersects_by_x && intersects_by_y) {
+          respawn(player.hp - 1, hp_i);
+          console.log(player.hp);
         }
       });
     } else {
