@@ -226,7 +226,7 @@ const backgr = createImage(bg);
 let genobj = [new GenObj(-1, -1)];
 let player = new Player();
 let enemy = new Enemy();
-let hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)]
+let hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)]
 let platform = [
     new Platform(0, cumvas.height - 100),
     new Platform(PlatformImage.width - 80, cumvas.height - 100),
@@ -249,10 +249,8 @@ const keys = {
     }
 }
 
-
 //отсчет до босс комнаты
 let scrolloff = 0;
-
 
 function respawn(hp, hp_i){
     PlatformImage = createImage(platforms);
@@ -273,7 +271,7 @@ function respawn(hp, hp_i){
         new Platform(5000, cumvas.height - 100),
         new Platform(6000, cumvas.height - 100)
     ];
-//отсчет до босс комнаты
+    //отсчет до босс комнаты
 
     scrolloff = 0;
 }
@@ -287,7 +285,7 @@ function anim(){
         ctx.fillStyle = 'white'
         ctx.fillRect(0, 0, cumvas.width, cumvas.height);
         genobj.forEach((genobj) =>{
-        genobj.draw();
+            genobj.draw();
         })
         console.log(scrolloff);
         platform.forEach(platform => {
@@ -323,8 +321,6 @@ function anim(){
             })
 
         }
-
-
 
         if(player.pos.y > cumvas.height){
             respawn(player.hp - 1, hp_i);
