@@ -12,6 +12,7 @@ import dwarf5 from '../image/dwarf_right4.png'
 import dwarf6 from '../image/dwarf_right5.png'
 import dwarf7 from '../image/dwarf_right6.png'
 import dwarf8 from '../image/dwarf_right7.png'
+import pivko from '../image/beer.png'
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -215,6 +216,21 @@ class Platform{
     update(){}
 }
 
+class Beer{
+    constructor(x, y, width_beer = 128, height_beer = 128){
+        this.pos = {
+            x: x,
+            y: y,
+            width: width_beer,
+            height: height_beer
+        }
+        this.image = createImage(pivko);
+    }
+    draw(){
+        ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height)
+    }
+}
+
 class GenObj{
   constructor(x, y){
     this.pos = {
@@ -254,8 +270,15 @@ let platform = [
     new Platform(5000, cumvas.height - 100),
     new Platform(6000, cumvas.height - 100)
 ];
-let spike = [new Spike(300, cumvas.height - 140)];
-
+let spike = [new Spike(750, cumvas.height - 140), 
+    new Spike(1650, cumvas.height - 140)
+    ,new Spike(2100, cumvas.height - 140),
+    new Spike(2200, cumvas.height - 140),
+    new Spike(2500, cumvas.height - 140),
+    new Spike(2600, cumvas.height - 140),
+    new Spike(2700, cumvas.height - 140),
+    new Spike(2975, cumvas.height - 140)];
+let beer = [new Beer(cumvas.width - 200, cumvas.height /15, 64, 64)]
 
 const keys = {
     right:{
@@ -290,7 +313,15 @@ function respawn(hp, hp_i){
         new Platform(5000, cumvas.height - 100),
         new Platform(6000, cumvas.height - 100)
     ];
-    spike = [new Spike(300, cumvas.height - 140)]
+    spike = [new Spike(750, cumvas.height - 140), 
+        new Spike(1650, cumvas.height - 140)
+        ,new Spike(2100, cumvas.height - 140),
+        new Spike(2200, cumvas.height - 140),
+        new Spike(2500, cumvas.height - 140),
+        new Spike(2600, cumvas.height - 140),
+        new Spike(2700, cumvas.height - 140),
+        new Spike(2975, cumvas.height - 140)]
+    
 //отсчет до босс комнаты
 
     scrolloff = 0;
@@ -299,7 +330,7 @@ function respawn(hp, hp_i){
 
 
 function anim(){
-    if(scrolloff < 25000){
+    if(scrolloff < 26000){
     if(player.hp > 0){
         requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
@@ -309,6 +340,9 @@ function anim(){
         })
         platform.forEach(platform => {
             platform.draw();
+        })
+        beer.forEach(beer => {
+            beer.draw();
         })
         spike.forEach(spike => {
             spike.draw();
@@ -370,7 +404,7 @@ function anim(){
         })
         spike.forEach(spike => {
             // console.log(spike)
-            let intersects_by_x = (player.pos.x + player.width >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width);
+            let intersects_by_x = (player.pos.x + player.width - 20 >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width);
             let intersects_by_y = (cumvas.height - player.pos.y <= (cumvas.height - spike.pos.y) + spike.image.height * 2);
 
             console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
@@ -422,10 +456,11 @@ let start_game = () => {
 
     addEventListener('keydown', ({keyCode}) =>{
     switch(keyCode) {
+        case 32:
         case 87:
             console.log('вверх')
             if(can_jump) {
-                player.vel.y = -10;
+                player.vel.y = -15;
                 can_jump = false;
             }
             break;

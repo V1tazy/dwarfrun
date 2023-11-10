@@ -99,6 +99,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/image/beer.png":
+/*!****************************!*\
+  !*** ./src/image/beer.png ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "4f597bcdb5f47f10f3c46bec8aaf5266.png");
+
+/***/ }),
+
 /***/ "./src/image/dwarf_right.png":
 /*!***********************************!*\
   !*** ./src/image/dwarf_right.png ***!
@@ -277,12 +290,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _image_dwarf_right5_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../image/dwarf_right5.png */ "./src/image/dwarf_right5.png");
 /* harmony import */ var _image_dwarf_right6_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../image/dwarf_right6.png */ "./src/image/dwarf_right6.png");
 /* harmony import */ var _image_dwarf_right7_png__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../image/dwarf_right7.png */ "./src/image/dwarf_right7.png");
+/* harmony import */ var _image_beer_png__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../image/beer.png */ "./src/image/beer.png");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
 
 
 
@@ -495,6 +510,27 @@ var Platform = /*#__PURE__*/function () {
   }]);
   return Platform;
 }();
+var Beer = /*#__PURE__*/function () {
+  function Beer(x, y) {
+    var width_beer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 128;
+    var height_beer = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 128;
+    _classCallCheck(this, Beer);
+    this.pos = {
+      x: x,
+      y: y,
+      width: width_beer,
+      height: height_beer
+    };
+    this.image = createImage(_image_beer_png__WEBPACK_IMPORTED_MODULE_13__["default"]);
+  }
+  _createClass(Beer, [{
+    key: "draw",
+    value: function draw() {
+      ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height);
+    }
+  }]);
+  return Beer;
+}();
 var GenObj = /*#__PURE__*/function () {
   function GenObj(x, y) {
     _classCallCheck(this, GenObj);
@@ -524,7 +560,8 @@ var player = new Player();
 var enemy = new Enemy();
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)];
 var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
-var spike = [new Spike(300, cumvas.height - 140)];
+var spike = [new Spike(750, cumvas.height - 140), new Spike(1650, cumvas.height - 140), new Spike(2100, cumvas.height - 140), new Spike(2200, cumvas.height - 140), new Spike(2500, cumvas.height - 140), new Spike(2600, cumvas.height - 140), new Spike(2700, cumvas.height - 140), new Spike(2975, cumvas.height - 140)];
+var beer = [new Beer(cumvas.width - 200, cumvas.height / 15, 64, 64)];
 var keys = {
   right: {
     pressed: false
@@ -544,7 +581,8 @@ function respawn(hp, hp_i) {
   player.hp = hp;
   enemy = new Enemy();
   platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
-  spike = [new Spike(300, cumvas.height - 140)];
+  spike = [new Spike(750, cumvas.height - 140), new Spike(1650, cumvas.height - 140), new Spike(2100, cumvas.height - 140), new Spike(2200, cumvas.height - 140), new Spike(2500, cumvas.height - 140), new Spike(2600, cumvas.height - 140), new Spike(2700, cumvas.height - 140), new Spike(2975, cumvas.height - 140)];
+
   //отсчет до босс комнаты
 
   scrolloff = 0;
@@ -552,7 +590,7 @@ function respawn(hp, hp_i) {
 //запуск loop
 
 function anim() {
-  if (scrolloff < 25000) {
+  if (scrolloff < 26000) {
     if (player.hp > 0) {
       requestAnimationFrame(anim);
       ctx.fillStyle = 'white';
@@ -562,6 +600,9 @@ function anim() {
       });
       platform.forEach(function (platform) {
         platform.draw();
+      });
+      beer.forEach(function (beer) {
+        beer.draw();
       });
       spike.forEach(function (spike) {
         spike.draw();
@@ -611,7 +652,7 @@ function anim() {
       });
       spike.forEach(function (spike) {
         // console.log(spike)
-        var intersects_by_x = player.pos.x + player.width >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width;
+        var intersects_by_x = player.pos.x + player.width - 20 >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width;
         var intersects_by_y = cumvas.height - player.pos.y <= cumvas.height - spike.pos.y + spike.image.height * 2;
         console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x]);
         if (intersects_by_x && intersects_by_y) {
@@ -646,10 +687,11 @@ var start_game = function start_game() {
   addEventListener('keydown', function (_ref) {
     var keyCode = _ref.keyCode;
     switch (keyCode) {
+      case 32:
       case 87:
         console.log('вверх');
         if (can_jump) {
-          player.vel.y = -10;
+          player.vel.y = -15;
           can_jump = false;
         }
         break;
