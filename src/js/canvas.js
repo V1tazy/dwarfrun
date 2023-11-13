@@ -3,7 +3,7 @@ import bg from '../image/BG1.png';
 import dwarf_right from '../image/dwarf_right.png';
 import logo from '../image/logo.png';
 import hp_image from '../image/hptemplate.png' 
-
+import spike_img from '../image/spike.png'
 import dwarf1 from '../image/dwarf_right.png'
 import dwarf2 from '../image/dwarf_right1.png'
 import dwarf3 from '../image/dwarf_right2.png'
@@ -12,6 +12,7 @@ import dwarf5 from '../image/dwarf_right4.png'
 import dwarf6 from '../image/dwarf_right5.png'
 import dwarf7 from '../image/dwarf_right6.png'
 import dwarf8 from '../image/dwarf_right7.png'
+import pivko from '../image/beer.png'
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -89,8 +90,8 @@ class Button {
 class Player {
     constructor() {
         this.pos = {
-            x: 100,
-            y: 100,
+            x: 0,
+            y: 1,
         }
 
         this.vel = {
@@ -130,11 +131,27 @@ class Player {
         }
     }
 }
+
+class Spike{
+    constructor(x, y){
+        this.pos = {
+            x,
+            y
+        }
+        this.image = createImage(spike_img)
+    }
+    draw() {
+        ctx.drawImage(this.image, this.pos.x, this.pos.y, this.image.width, this.image.height)
+    }
+
+    update(){}
+}
+
 class Heart{
     constructor(x, y){
         this.pos = {
-            x:x,
-            y:y
+            x,
+            y
         }
 
         this.image = createImage(hp_image)
@@ -199,6 +216,21 @@ class Platform{
     update(){}
 }
 
+class Beer{
+    constructor(x, y, width_beer = 128, height_beer = 128){
+        this.pos = {
+            x: x,
+            y: y,
+            width: width_beer,
+            height: height_beer
+        }
+        this.image = createImage(pivko);
+    }
+    draw(){
+        ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height)
+    }
+}
+
 class GenObj{
   constructor(x, y){
     this.pos = {
@@ -238,7 +270,15 @@ let platform = [
     new Platform(5000, cumvas.height - 100),
     new Platform(6000, cumvas.height - 100)
 ];
-
+let spike = [new Spike(750, cumvas.height - 140), 
+    new Spike(1650, cumvas.height - 140)
+    ,new Spike(2100, cumvas.height - 140),
+    new Spike(2200, cumvas.height - 140),
+    new Spike(2500, cumvas.height - 140),
+    new Spike(2600, cumvas.height - 140),
+    new Spike(2700, cumvas.height - 140),
+    new Spike(2975, cumvas.height - 140)];
+let beer = [new Beer(cumvas.width - 200, cumvas.height /15, 64, 64)]
 
 const keys = {
     right:{
@@ -271,7 +311,20 @@ function respawn(hp, hp_i){
         new Platform(5000, cumvas.height - 100),
         new Platform(6000, cumvas.height - 100)
     ];
+<<<<<<< HEAD
     //отсчет до босс комнаты
+=======
+    spike = [new Spike(750, cumvas.height - 140), 
+        new Spike(1650, cumvas.height - 140)
+        ,new Spike(2100, cumvas.height - 140),
+        new Spike(2200, cumvas.height - 140),
+        new Spike(2500, cumvas.height - 140),
+        new Spike(2600, cumvas.height - 140),
+        new Spike(2700, cumvas.height - 140),
+        new Spike(2975, cumvas.height - 140)]
+    
+//отсчет до босс комнаты
+>>>>>>> 773a9f8401ef9b94e7a516772043638f006ad434
 
     scrolloff = 0;
 }
@@ -279,7 +332,7 @@ function respawn(hp, hp_i){
 
 
 function anim(){
-    if(scrolloff < 25000){
+    if(scrolloff < 26000){
     if(player.hp > 0){
         requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
@@ -287,9 +340,14 @@ function anim(){
         genobj.forEach((genobj) =>{
             genobj.draw();
         })
-        console.log(scrolloff);
         platform.forEach(platform => {
             platform.draw();
+        })
+        beer.forEach(beer => {
+            beer.draw();
+        })
+        spike.forEach(spike => {
+            spike.draw();
         })
         hp_i.forEach(hp_i => {hp_i.draw()})
         player.update();
@@ -313,11 +371,17 @@ function anim(){
                 scrolloff += 5;
                 platform.pos.x -= 10;
             })
+            spike.forEach(spike => {
+                spike.pos.x -= 10;
+            })
         }
         else if(keys.left.pressed){
             platform.forEach(platform => {
                 scrolloff -= 5;
                 platform.pos.x += 10;
+            })
+            spike.forEach(spike => {
+                spike.pos.x += 10;
             })
 
         }
@@ -336,6 +400,18 @@ function anim(){
                 ) {
                 can_jump = true;
                 player.vel.y = 0;
+            }
+        })
+        spike.forEach(spike => {
+            // console.log(spike)
+            let intersects_by_x = (player.pos.x + player.width - 20 >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width);
+            let intersects_by_y = (cumvas.height - player.pos.y <= (cumvas.height - spike.pos.y) + spike.image.height * 2);
+
+            console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
+            if(intersects_by_x
+            && intersects_by_y){
+                respawn(player.hp - 1, hp_i)
+                console.log(player.hp)
             }
         })
     }
@@ -380,10 +456,11 @@ let start_game = () => {
 
     addEventListener('keydown', ({keyCode}) =>{
     switch(keyCode) {
+        case 32:
         case 87:
             console.log('вверх')
             if(can_jump) {
-                player.vel.y = -10;
+                player.vel.y = -15;
                 can_jump = false;
             }
             break;
