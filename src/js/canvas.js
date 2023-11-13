@@ -323,13 +323,8 @@ function respawn(hp, hp_i){
         new Spike(2200, cumvas.height - 140),
         new Spike(2500, cumvas.height - 140),
         new Spike(2600, cumvas.height - 140),
-<<<<<<< HEAD
         new Spike(2700, cumvas.height - 140)]
     
-=======
-        new Spike(2700, cumvas.height - 140),
-        new Spike(2975, cumvas.height - 140)]
->>>>>>> 73c3e126fb87dd393d6af2b0eb0f45a419b63904
 //отсчет до босс комнаты
 
     scrolloff = 0;
