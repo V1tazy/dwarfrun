@@ -217,19 +217,27 @@ class Platform{
 }
 
 class Beer{
-    constructor(x, y, width_beer = 128, height_beer = 128){
+    constructor(x, y, width_beer = 128, height_beer = 128, type){
         this.pos = {
             x: x,
             y: y,
             width: width_beer,
             height: height_beer
         }
+        this.isUI = type;
         this.image = createImage(pivko);
+        this.beerCounter = 0;
+        this.status = false;
     }
     draw(){
+        if(this.isUI){
         ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height)
+        ctx.fillText(this.beerCounter, this.pos.x - this.pos.width, this.pos.y + this.pos.height/2)}
+        else
+            ctx.drawImage(this.image, this.pos.x + this.pos.width, this.pos.y, this.pos.width, this.pos.height)
     }
 }
+
 
 class GenObj{
   constructor(x, y){
@@ -278,8 +286,6 @@ let spike = [new Spike(750, cumvas.height - 140),
     new Spike(2600, cumvas.height - 140),
     new Spike(2700, cumvas.height - 140),
     new Spike(2975, cumvas.height - 140)];
-let beer = [new Beer(cumvas.width - 200, cumvas.height /15, 64, 64)]
-
 const keys = {
     right:{
         pressed: false
@@ -317,8 +323,13 @@ function respawn(hp, hp_i){
         new Spike(2200, cumvas.height - 140),
         new Spike(2500, cumvas.height - 140),
         new Spike(2600, cumvas.height - 140),
+<<<<<<< HEAD
         new Spike(2700, cumvas.height - 140)]
     
+=======
+        new Spike(2700, cumvas.height - 140),
+        new Spike(2975, cumvas.height - 140)]
+>>>>>>> 73c3e126fb87dd393d6af2b0eb0f45a419b63904
 //отсчет до босс комнаты
 
     scrolloff = 0;
@@ -331,15 +342,12 @@ function anim() {
     if(player.hp > 0){
         requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+        ctx.fillRect(0, 0, cumvas.width, cumvas.height);    
         genobj.forEach((genobj) =>{
             genobj.draw();
         })
         platform.forEach(platform => {
             platform.draw();
-        })
-        beer.forEach(beer => {
-            beer.draw();
         })
         spike.forEach(spike => {
             spike.draw();
@@ -347,7 +355,8 @@ function anim() {
         hp_i.forEach(hp_i => {hp_i.draw()})
         player.update();
 
-        if(keys.left.pressed && player.pos.x > 8000){
+
+        if(keys.left.pressed && (player.pos.x > 8000)){
             player.vel.x = 0;
         }
 
@@ -371,14 +380,15 @@ function anim() {
             })
         }
         else if(keys.left.pressed){
-            platform.forEach(platform => {
-                scrolloff -= 5;
-                platform.pos.x += 10;
+            if(player.pos.x > platform[0].pos.x){
+                platform.forEach(platform => {
+                    scrolloff -= 5;
+                    platform.pos.x += 10;
             })
-            spike.forEach(spike => {
+                spike.forEach(spike => {
                 spike.pos.x += 10;
             })
-
+            }
         }
 
         if(player.pos.y > cumvas.height){
@@ -402,7 +412,7 @@ function anim() {
             let intersects_by_x = (player.pos.x + player.width - 20 >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width);
             let intersects_by_y = (cumvas.height - player.pos.y <= (cumvas.height - spike.pos.y) + spike.image.height * 2);
 
-            console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
+            //console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
             if(intersects_by_x
             && intersects_by_y){
                 respawn(player.hp - 1, hp_i)
