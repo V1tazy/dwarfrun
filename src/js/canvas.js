@@ -311,27 +311,22 @@ function respawn(hp, hp_i){
         new Platform(5000, cumvas.height - 100),
         new Platform(6000, cumvas.height - 100)
     ];
-<<<<<<< HEAD
-    //отсчет до босс комнаты
-=======
     spike = [new Spike(750, cumvas.height - 140), 
-        new Spike(1650, cumvas.height - 140)
-        ,new Spike(2100, cumvas.height - 140),
+        new Spike(1650, cumvas.height - 140),
+        new Spike(2100, cumvas.height - 140),
         new Spike(2200, cumvas.height - 140),
         new Spike(2500, cumvas.height - 140),
         new Spike(2600, cumvas.height - 140),
-        new Spike(2700, cumvas.height - 140),
-        new Spike(2975, cumvas.height - 140)]
+        new Spike(2700, cumvas.height - 140)]
     
 //отсчет до босс комнаты
->>>>>>> 773a9f8401ef9b94e7a516772043638f006ad434
 
     scrolloff = 0;
 }
 //запуск loop
 
 
-function anim(){
+function anim() {
     if(scrolloff < 26000){
     if(player.hp > 0){
         requestAnimationFrame(anim);
