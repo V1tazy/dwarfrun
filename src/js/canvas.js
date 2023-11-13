@@ -34,7 +34,8 @@ var main_sprites = [
     dwarf4,
     dwarf5,
     dwarf6,
-    dwarf7
+    dwarf7,
+    dwarf8
 ]
 
 class Button {
@@ -110,24 +111,23 @@ class Player {
     draw(){
         ctx.drawImage(
             this.image,
-            this.pos.x, this.pos.y, this.width, this.height)
+            this.pos.x,
+            this.pos.y,
+            this.width,
+            this.height)
     }
 
     update(){
-        // this.image = this.frames[this.frame];
+        this.image = this.frames[this.frame];
 
         this.pos.y += this.vel.y
         this.pos.x += this.vel.x
+        
         this.draw()
+        
         if(this.pos.y + this.height + this.vel.y <= cumvas.height){
             this.vel.y += gravity
         }
-
-        // if(this.frame > this.frames.length - 1) {
-        //     this.frame = 0
-        // } else {
-        //     this.frame += 1
-        // }
     }
 }
 class Heart{
