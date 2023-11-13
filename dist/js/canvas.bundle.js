@@ -514,6 +514,7 @@ var Beer = /*#__PURE__*/function () {
   function Beer(x, y) {
     var width_beer = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 128;
     var height_beer = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 128;
+    var type = arguments.length > 4 ? arguments[4] : undefined;
     _classCallCheck(this, Beer);
     this.pos = {
       x: x,
@@ -521,12 +522,18 @@ var Beer = /*#__PURE__*/function () {
       width: width_beer,
       height: height_beer
     };
+    this.isUI = type;
     this.image = createImage(_image_beer_png__WEBPACK_IMPORTED_MODULE_13__["default"]);
+    this.beerCounter = 0;
+    this.status = false;
   }
   _createClass(Beer, [{
     key: "draw",
     value: function draw() {
-      ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height);
+      if (this.isUI) {
+        ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height);
+        ctx.fillText(this.beerCounter, this.pos.x - this.pos.width, this.pos.y + this.pos.height / 2);
+      } else ctx.drawImage(this.image, this.pos.x + this.pos.width, this.pos.y, this.pos.width, this.pos.height);
     }
   }]);
   return Beer;
@@ -561,7 +568,6 @@ var enemy = new Enemy();
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)];
 var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
 var spike = [new Spike(750, cumvas.height - 140), new Spike(1650, cumvas.height - 140), new Spike(2100, cumvas.height - 140), new Spike(2200, cumvas.height - 140), new Spike(2500, cumvas.height - 140), new Spike(2600, cumvas.height - 140), new Spike(2700, cumvas.height - 140), new Spike(2975, cumvas.height - 140)];
-var beer = [new Beer(cumvas.width - 200, cumvas.height / 15, 64, 64)];
 var keys = {
   right: {
     pressed: false
@@ -582,7 +588,6 @@ function respawn(hp, hp_i) {
   enemy = new Enemy();
   platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
   spike = [new Spike(750, cumvas.height - 140), new Spike(1650, cumvas.height - 140), new Spike(2100, cumvas.height - 140), new Spike(2200, cumvas.height - 140), new Spike(2500, cumvas.height - 140), new Spike(2600, cumvas.height - 140), new Spike(2700, cumvas.height - 140), new Spike(2975, cumvas.height - 140)];
-
   //отсчет до босс комнаты
 
   scrolloff = 0;
@@ -600,9 +605,6 @@ function anim() {
       });
       platform.forEach(function (platform) {
         platform.draw();
-      });
-      beer.forEach(function (beer) {
-        beer.draw();
       });
       spike.forEach(function (spike) {
         spike.draw();
@@ -630,13 +632,15 @@ function anim() {
           spike.pos.x -= 10;
         });
       } else if (keys.left.pressed) {
-        platform.forEach(function (platform) {
-          scrolloff -= 5;
-          platform.pos.x += 10;
-        });
-        spike.forEach(function (spike) {
-          spike.pos.x += 10;
-        });
+        if (player.pos.x > platform[0].pos.x) {
+          platform.forEach(function (platform) {
+            scrolloff -= 5;
+            platform.pos.x += 10;
+          });
+          spike.forEach(function (spike) {
+            spike.pos.x += 10;
+          });
+        }
       }
       if (player.pos.y > cumvas.height) {
         respawn(player.hp - 1, hp_i);
@@ -654,7 +658,8 @@ function anim() {
         // console.log(spike)
         var intersects_by_x = player.pos.x + player.width - 20 >= spike.pos.x && player.pos.x <= spike.pos.x + spike.image.width;
         var intersects_by_y = cumvas.height - player.pos.y <= cumvas.height - spike.pos.y + spike.image.height * 2;
-        console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x]);
+
+        //console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
         if (intersects_by_x && intersects_by_y) {
           respawn(player.hp - 1, hp_i);
           console.log(player.hp);
