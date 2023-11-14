@@ -35,7 +35,8 @@ var main_sprites = [
     dwarf4,
     dwarf5,
     dwarf6,
-    dwarf7
+    dwarf7,
+    dwarf8
 ]
 
 class Button {
@@ -111,24 +112,23 @@ class Player {
     draw(){
         ctx.drawImage(
             this.image,
-            this.pos.x, this.pos.y, this.width, this.height)
+            this.pos.x,
+            this.pos.y,
+            this.width,
+            this.height)
     }
 
     update(){
-        // this.image = this.frames[this.frame];
+        this.image = this.frames[this.frame];
 
         this.pos.y += this.vel.y
         this.pos.x += this.vel.x
+        
         this.draw()
+        
         if(this.pos.y + this.height + this.vel.y <= cumvas.height){
             this.vel.y += gravity
         }
-
-        // if(this.frame > this.frames.length - 1) {
-        //     this.frame = 0
-        // } else {
-        //     this.frame += 1
-        // }
     }
 }
 
@@ -266,14 +266,13 @@ const backgr = createImage(bg);
 let genobj = [new GenObj(-1, -1)];
 let player = new Player();
 let enemy = new Enemy();
-let hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)]
+let hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)]
 let platform = [
     new Platform(0, cumvas.height - 100),
     new Platform(PlatformImage.width - 80, cumvas.height - 100),
     new Platform(1500, cumvas.height - 100),
     new Platform(2000, cumvas.height - 100),
     new Platform(2500, cumvas.height - 100),
-    new Platform(2500, cumvas.height - 500),
     new Platform(3500, cumvas.height - 150),
     new Platform(4500, cumvas.height - 100),
     new Platform(5000, cumvas.height - 100),
@@ -286,7 +285,8 @@ let spike = [new Spike(750, cumvas.height - 140),
     new Spike(2500, cumvas.height - 140),
     new Spike(2600, cumvas.height - 140),
     new Spike(2700, cumvas.height - 140),
-    new Spike(2975, cumvas.height - 140)];
+    new Spike(3600, cumvas.height - 190),
+    new Spike(3900, cumvas.height - 190)];
 const keys = {
     right:{
         pressed: false
@@ -296,10 +296,8 @@ const keys = {
     }
 }
 
-
 //отсчет до босс комнаты
 let scrolloff = 0;
-
 
 function respawn(hp, hp_i){
     PlatformImage = createImage(platforms);
@@ -321,13 +319,15 @@ function respawn(hp, hp_i){
         new Platform(6000, cumvas.height - 100)
     ];
     spike = [new Spike(750, cumvas.height - 140), 
-        new Spike(1650, cumvas.height - 140)
-        ,new Spike(2100, cumvas.height - 140),
+        new Spike(1650, cumvas.height - 140),
+        new Spike(2100, cumvas.height - 140),
         new Spike(2200, cumvas.height - 140),
         new Spike(2500, cumvas.height - 140),
         new Spike(2600, cumvas.height - 140),
         new Spike(2700, cumvas.height - 140),
-        new Spike(2975, cumvas.height - 140)]
+        new Spike(3700, cumvas.height - 190),
+        new Spike(3800, cumvas.height - 190)];
+    
 //отсчет до босс комнаты
 
     scrolloff = 0;
@@ -335,14 +335,14 @@ function respawn(hp, hp_i){
 //запуск loop
 
 
-function anim(){
+function anim() {
     if(scrolloff < 26000){
     if(player.hp > 0){
         requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
         ctx.fillRect(0, 0, cumvas.width, cumvas.height);    
         genobj.forEach((genobj) =>{
-        genobj.draw();
+            genobj.draw();
         })
         platform.forEach(platform => {
             platform.draw();
@@ -388,8 +388,6 @@ function anim(){
             })
             }
         }
-
-
 
         if(player.pos.y > cumvas.height){
             respawn(player.hp - 1, hp_i);
@@ -444,8 +442,14 @@ function anim(){
     }
 }
 else{
-    ctx.clearRect(0,0, cumvas.width, cumvas.height);
-    console.log("Game win");
+    ctx.clearRect(0, 0, cumvas.width, cumvas.height);
+
+    const coords = ctx.measureText("You won!");
+
+    ctx.fillText("You won!",
+                 (cumvas.width - coords.width) / 2,
+                 (cumvas.height - coords.actualBoundingBoxAscent) / 2
+                );
 }
 }
 
