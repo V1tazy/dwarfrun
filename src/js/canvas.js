@@ -338,7 +338,7 @@ function respawn(hp, hp_i){
 function anim() {
     if(scrolloff < 26000){
     if(player.hp > 0){
-        requestAnimationFrame(anim);
+        // requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
         ctx.fillRect(0, 0, cumvas.width, cumvas.height);    
         genobj.forEach((genobj) =>{
@@ -461,7 +461,8 @@ let start_game = () => {
 
     game_started = true;
     player.update(); 
-    anim();
+    
+    setInterval(anim, 1000 / 60);
 
     addEventListener('keydown', ({keyCode}) =>{
     switch(keyCode) {
