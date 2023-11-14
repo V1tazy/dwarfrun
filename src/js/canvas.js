@@ -273,6 +273,7 @@ let platform = [
     new Platform(1500, cumvas.height - 100),
     new Platform(2000, cumvas.height - 100),
     new Platform(2500, cumvas.height - 100),
+    new Platform(2500, cumvas.height - 500),
     new Platform(3500, cumvas.height - 150),
     new Platform(4500, cumvas.height - 100),
     new Platform(5000, cumvas.height - 100),

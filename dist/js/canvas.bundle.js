@@ -566,7 +566,7 @@ var genobj = [new GenObj(-1, -1)];
 var player = new Player();
 var enemy = new Enemy();
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(200, cumvas.height / 15), new Heart(300, cumvas.height / 15)];
-var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
+var platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(2500, cumvas.height - 500), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
 var spike = [new Spike(750, cumvas.height - 140), new Spike(1650, cumvas.height - 140), new Spike(2100, cumvas.height - 140), new Spike(2200, cumvas.height - 140), new Spike(2500, cumvas.height - 140), new Spike(2600, cumvas.height - 140), new Spike(2700, cumvas.height - 140), new Spike(2975, cumvas.height - 140)];
 var keys = {
   right: {
