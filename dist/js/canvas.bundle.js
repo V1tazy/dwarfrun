@@ -674,7 +674,8 @@ function anim() {
     }
   } else {
     ctx.clearRect(0, 0, cumvas.width, cumvas.height);
-    console.log("Game win");
+    var coords = ctx.measureText("You won!");
+    ctx.fillText("You won!", (cumvas.width - coords.width) / 2, (cumvas.height - coords.actualBoundingBoxAscent) / 2);
   }
 }
 var game_started = false;
