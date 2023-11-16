@@ -255,6 +255,7 @@ class GenObj{
   
   draw(){
     ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height)
+    ctx.drawImage(this.pos.image, cumvas.width + this.pos.x, this.pos.y, cumvas.width, cumvas.height)
   }
 }
 
@@ -369,6 +370,8 @@ function anim() {
             spike.forEach(spike => {
                 spike.pos.x -= 10;
             })
+
+            genobj[0].pos.x -= 1
         }
         else if(keys.left.pressed){
             if(player.pos.x > platform[0].pos.x){
@@ -380,6 +383,8 @@ function anim() {
                 spike.pos.x += 10;
             })
             }
+
+            genobj[0].pos.x+= 1
         }
 
         if(player.pos.y > cumvas.height){

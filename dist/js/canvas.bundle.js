@@ -561,6 +561,7 @@ var GenObj = /*#__PURE__*/function () {
     key: "draw",
     value: function draw() {
       ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height);
+      ctx.drawImage(this.pos.image, cumvas.width + this.pos.x, this.pos.y, cumvas.width, cumvas.height);
     }
   }]);
   return GenObj;
@@ -652,6 +653,7 @@ function anim() {
         spike.forEach(function (spike) {
           spike.pos.x -= 10;
         });
+        genobj[0].pos.x -= 1;
       } else if (keys.left.pressed) {
         if (player.pos.x > platform[0].pos.x) {
           platform.forEach(function (platform) {
@@ -662,6 +664,7 @@ function anim() {
             spike.pos.x += 10;
           });
         }
+        genobj[0].pos.x += 1;
       }
       if (player.pos.y > cumvas.height) {
         respawn();
