@@ -572,8 +572,8 @@ function createImage(imgSrc) {
 }
 var PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var backgr = createImage(_image_BG1_png__WEBPACK_IMPORTED_MODULE_1__["default"]);
-var genobj;
-var player;
+var genobj = [new GenObj(-1, -1)];
+var player = new Player();
 var enemy;
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)];
 ;
@@ -591,20 +591,26 @@ var keys = {
 //отсчет до босс комнаты
 var scrolloff = 0;
 function initialize() {
-  genobj = [new GenObj(-1, -1)];
-  player = new Player();
   enemy = new Enemy();
   platform = [new Platform(0, cumvas.height - 100), new Platform(PlatformImage.width - 80, cumvas.height - 100), new Platform(1500, cumvas.height - 100), new Platform(2000, cumvas.height - 100), new Platform(2500, cumvas.height - 100), new Platform(3500, cumvas.height - 150), new Platform(4500, cumvas.height - 100), new Platform(5000, cumvas.height - 100), new Platform(6000, cumvas.height - 100)];
   spike = [new Spike(750, cumvas.height - 140), new Spike(1650, cumvas.height - 140), new Spike(2100, cumvas.height - 140), new Spike(2200, cumvas.height - 140), new Spike(2500, cumvas.height - 140), new Spike(2600, cumvas.height - 140), new Spike(2700, cumvas.height - 140), new Spike(2975, cumvas.height - 140)];
+  player.pos = {
+    x: 0,
+    y: 1
+  };
+  player.vel = {
+    x: 0,
+    y: 1
+  };
 
   //отсчет до босс комнаты
 
   scrolloff = 0;
 }
-function respawn(hp, hp_i) {
+function respawn() {
   PlatformImage = createImage(_image_platform_png__WEBPACK_IMPORTED_MODULE_0__["default"]);
-  hp_i = hp_i.pop();
-  player.hp = hp;
+  hp_i.pop();
+  player.hp--;
   initialize();
 }
 //запуск loop
@@ -658,7 +664,7 @@ function anim() {
         }
       }
       if (player.pos.y > cumvas.height) {
-        respawn(player.hp - 1, hp_i);
+        respawn();
         console.log(player.hp);
       }
 
@@ -676,13 +682,12 @@ function anim() {
 
         //console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
         if (intersects_by_x && intersects_by_y) {
-          respawn(player.hp - 1, hp_i);
+          respawn();
           console.log(player.hp);
         }
       });
     } else {
       ctx.clearRect(0, 0, cumvas.width, cumvas.height);
-      console.log("Game Over");
       ctx.fillStyle = 'white';
       var w = 300;
       var h = 100;

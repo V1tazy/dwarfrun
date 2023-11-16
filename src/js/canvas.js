@@ -268,10 +268,10 @@ function createImage(imgSrc){
 let PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
 
-let genobj;
-let player;
+let genobj = [new GenObj(-1, -1)];
+var player = new Player();
 let enemy;
-let hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)];;
+var hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)];;
 let platform;
 let spike;
 
@@ -288,8 +288,6 @@ const keys = {
 let scrolloff = 0;
 
 function initialize() {
-    genobj = [new GenObj(-1, -1)];
-    player = new Player();
     enemy = new Enemy();
     platform = [
         new Platform(0, cumvas.height - 100),
@@ -312,17 +310,19 @@ function initialize() {
         new Spike(2700, cumvas.height - 140),
         new Spike(2975, cumvas.height - 140)
     ];
+    player.pos = {x: 0, y: 1}
+    player.vel = {x: 0, y: 1}
     
 //отсчет до босс комнаты
 
     scrolloff = 0;
 }
 
-function respawn(hp, hp_i){
+function respawn(){
     PlatformImage = createImage(platforms);
 
-    hp_i = hp_i.pop();
-    player.hp = hp
+    hp_i.pop();
+    player.hp--;
     
     initialize();
 }
@@ -383,7 +383,7 @@ function anim() {
         }
 
         if(player.pos.y > cumvas.height){
-            respawn(player.hp - 1, hp_i);
+            respawn();
             console.log(player.hp);
         }
 
@@ -406,14 +406,13 @@ function anim() {
             //console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
             if(intersects_by_x
             && intersects_by_y){
-                respawn(player.hp - 1, hp_i)
+                respawn()
                 console.log(player.hp)
             }
         })
     }
     else {
         ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
-        console.log("Game Over");
         ctx.fillStyle = 'white';
 
         let w = 300
