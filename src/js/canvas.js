@@ -270,38 +270,12 @@ let PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
 
 let genobj = [new GenObj(-1, -1)];
-<<<<<<< HEAD
 var player = new Player();
 let enemy;
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)];;
 let platform;
 let spike;
 
-=======
-let player = new Player();
-let enemy = new Enemy();
-let hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)]
-let platform = [
-    new Platform(0, cumvas.height - 100),
-    new Platform(PlatformImage.width - 80, cumvas.height - 100),
-    new Platform(1500, cumvas.height - 100),
-    new Platform(2000, cumvas.height - 100),
-    new Platform(2500, cumvas.height - 100),
-    new Platform(3500, cumvas.height - 150),
-    new Platform(4500, cumvas.height - 100),
-    new Platform(5000, cumvas.height - 100),
-    new Platform(6000, cumvas.height - 100)
-];
-let spike = [new Spike(750, cumvas.height - 140), 
-    new Spike(1650, cumvas.height - 140)
-    ,new Spike(2100, cumvas.height - 140),
-    new Spike(2200, cumvas.height - 140),
-    new Spike(2500, cumvas.height - 140),
-    new Spike(2600, cumvas.height - 140),
-    new Spike(2700, cumvas.height - 140),
-    new Spike(3600, cumvas.height - 190),
-    new Spike(3900, cumvas.height - 190)];
->>>>>>> 294c82be90773b837376a5ac473c9c5d664c4381
 const keys = {
     right:{
         pressed: false
@@ -335,15 +309,10 @@ function initialize() {
         new Spike(2500, cumvas.height - 140),
         new Spike(2600, cumvas.height - 140),
         new Spike(2700, cumvas.height - 140),
-<<<<<<< HEAD
         new Spike(2975, cumvas.height - 140)
     ];
     player.pos = {x: 0, y: 1}
     player.vel = {x: 0, y: 1}
-=======
-        new Spike(3700, cumvas.height - 190),
-        new Spike(3800, cumvas.height - 190)];
->>>>>>> 294c82be90773b837376a5ac473c9c5d664c4381
     
 //отсчет до босс комнаты
 
