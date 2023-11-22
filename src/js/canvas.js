@@ -13,6 +13,7 @@ import dwarf6 from '../image/dwarf_right5.png'
 import dwarf7 from '../image/dwarf_right6.png'
 import dwarf8 from '../image/dwarf_right7.png'
 import pivko from '../image/beer.png'
+import background_music from '../bgm.mp3'
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -38,6 +39,10 @@ var main_sprites = [
     dwarf7,
     dwarf8
 ]
+
+var music = new Audio(background_music);
+
+console.log(music.src)
 
 class Button {
     constructor(label, color, width, height, x, y, textcolor = "#000000", textsize = 24) {
@@ -250,6 +255,7 @@ class GenObj{
   
   draw(){
     ctx.drawImage(this.pos.image, this.pos.x, this.pos.y, cumvas.width, cumvas.height)
+    ctx.drawImage(this.pos.image, cumvas.width + this.pos.x, this.pos.y, cumvas.width, cumvas.height)
   }
 }
 
@@ -264,29 +270,13 @@ let PlatformImage = createImage(platforms);
 const backgr = createImage(bg);
 
 let genobj = [new GenObj(-1, -1)];
-let player = new Player();
-let enemy = new Enemy();
-let hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)]
-let platform = [
-    new Platform(0, cumvas.height - 100),
-    new Platform(PlatformImage.width - 80, cumvas.height - 100),
-    new Platform(1500, cumvas.height - 100),
-    new Platform(2000, cumvas.height - 100),
-    new Platform(2500, cumvas.height - 100),
-    new Platform(3500, cumvas.height - 150),
-    new Platform(4500, cumvas.height - 100),
-    new Platform(5000, cumvas.height - 100),
-    new Platform(6000, cumvas.height - 100)
-];
-let spike = [new Spike(750, cumvas.height - 140), 
-    new Spike(1650, cumvas.height - 140)
-    ,new Spike(2100, cumvas.height - 140),
-    new Spike(2200, cumvas.height - 140),
-    new Spike(2500, cumvas.height - 140),
-    new Spike(2600, cumvas.height - 140),
-    new Spike(2700, cumvas.height - 140),
-    new Spike(3600, cumvas.height - 190),
-    new Spike(3900, cumvas.height - 190)];
+var player = new Player();
+let enemy;
+var hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)];;
+let platform;
+let spike;
+let lastPlatformX
+
 const keys = {
     right:{
         pressed: false
@@ -296,16 +286,55 @@ const keys = {
     }
 }
 
+function getLastPlatformX() {
+    if (platform.length > 0) {
+        const lastPlatform = platform[platform.length - 1];
+        const lastPlatformX = lastPlatform.pos.x;
+        return lastPlatformX;
+    }
+    return 0;
+}
+
+function generateRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function createPlatform(x, y) {
+    platform.push(new Platform(x, y));
+}
+
+// Функция для создания шипа
+function createSpike(x, y) {
+    spike.push(new Spike(x, y));
+}
+
+// Функция для генерации платформы и шипа
+function generateRandomPlatformsAndSpikes() {
+    let distanceBetweenPlatforms = generateRandomNumber(100, 200);
+    let lastPlatformX = getLastPlatformX(); // Получение координаты x последней платформы
+
+    let platformX = lastPlatformX + distanceBetweenPlatforms + generateRandomNumber(100, 200);
+    let platformY = generateRandomNumber(cumvas.height - 150, cumvas.height - 100); // Выберите ваше значение Y для платформы
+
+    const spikesForPlatform = generateRandomNumber(1, 3); // Количество шипов для платформы
+
+    createPlatform(platformX, platformY); // Создание платформы
+
+    for (let i = 0; i < spikesForPlatform; i++) {
+        const spikeX = platformX + generateRandomNumber(50, 200);
+        const spikeY = platformY - 40; // Выберите ваше значение Y для шипа
+
+        createSpike(spikeX, spikeY); // Создание шипов
+    }
+}
+
+
+
 //отсчет до босс комнаты
 let scrolloff = 0;
 
-function respawn(hp, hp_i){
-    PlatformImage = createImage(platforms);
-
-    genobj = [new GenObj(-1, -1)];
-    player = new Player();
-    hp_i = hp_i.pop();
-    player.hp = hp
+function initialize() {
     enemy = new Enemy();
     platform = [
         new Platform(0, cumvas.height - 100),
@@ -318,29 +347,46 @@ function respawn(hp, hp_i){
         new Platform(5000, cumvas.height - 100),
         new Platform(6000, cumvas.height - 100)
     ];
-    spike = [new Spike(750, cumvas.height - 140), 
+    spike = [
+        new Spike(750, cumvas.height - 140), 
         new Spike(1650, cumvas.height - 140),
         new Spike(2100, cumvas.height - 140),
         new Spike(2200, cumvas.height - 140),
         new Spike(2500, cumvas.height - 140),
         new Spike(2600, cumvas.height - 140),
         new Spike(2700, cumvas.height - 140),
-        new Spike(3700, cumvas.height - 190),
-        new Spike(3800, cumvas.height - 190)];
+        new Spike(2975, cumvas.height - 140)
+    ];
+    player.pos = {x: 0, y: 1}
+    player.vel = {x: 0, y: 1}
+
+
+
     
 //отсчет до босс комнаты
 
     scrolloff = 0;
 }
+
+function respawn(){
+    PlatformImage = createImage(platforms);
+
+    hp_i.pop();
+    player.hp--;
+    
+    initialize();
+}
 //запуск loop
 
-
 function anim() {
-    if(scrolloff < 26000){
+    if(scrolloff < 56000){
     if(player.hp > 0){
+        lastPlatformX = getLastPlatformX();
+        console.log(lastPlatformX);
         // requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, cumvas.width, cumvas.height);    
+        ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+
         genobj.forEach((genobj) =>{
             genobj.draw();
         })
@@ -354,15 +400,16 @@ function anim() {
         player.update();
 
 
+
         if(keys.left.pressed && (player.pos.x > 8000)){
             player.vel.x = 0;
         }
 
         if(keys.right.pressed && player.pos.x < 400){
-            player.vel.x = 5;
+            player.vel.x = 10;
         }
         else if(keys.left.pressed && player.pos.x > 100){
-            player.vel.x = -5;
+            player.vel.x = -10;
         }
         else {
             player.vel.x = 0
@@ -376,6 +423,8 @@ function anim() {
             spike.forEach(spike => {
                 spike.pos.x -= 10;
             })
+
+            genobj[0].pos.x -= 1
         }
         else if(keys.left.pressed){
             if(player.pos.x > platform[0].pos.x){
@@ -387,10 +436,13 @@ function anim() {
                 spike.pos.x += 10;
             })
             }
+
+            genobj[0].pos.x+= 1
         }
 
+
         if(player.pos.y > cumvas.height){
-            respawn(player.hp - 1, hp_i);
+            respawn();
             console.log(player.hp);
         }
 
@@ -413,14 +465,17 @@ function anim() {
             //console.log([intersects_by_x, intersects_by_y, player.width, player.pos.x + player.width, spike.pos.x])
             if(intersects_by_x
             && intersects_by_y){
-                respawn(player.hp - 1, hp_i)
+                respawn()
                 console.log(player.hp)
             }
         })
+
+        if (player.pos.x > lastPlatformX - cumvas.width) {
+            generateRandomPlatformsAndSpikes();
+        }
     }
     else {
         ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
-        console.log("Game Over");
         ctx.fillStyle = 'white';
 
         let w = 300
@@ -439,6 +494,8 @@ function anim() {
             xa + text.width / 1.5,
             ya + (text.actualBoundingBoxAscent * 3)
         );
+
+        music.pause();
     }
 }
 else{
@@ -450,6 +507,8 @@ else{
                  (cumvas.width - coords.width) / 2,
                  (cumvas.height - coords.actualBoundingBoxAscent) / 2
                 );
+
+    music.pause();
 }
 }
 
@@ -459,10 +518,14 @@ let start_game = () => {
     if(game_started)
         return;
 
+    initialize();
+
     game_started = true;
     player.update(); 
     
     setInterval(anim, 1000 / 60);
+
+    music.play();
 
     addEventListener('keydown', ({keyCode}) =>{
     switch(keyCode) {
