@@ -275,6 +275,7 @@ let enemy;
 var hp_i = [new Heart(100, cumvas.height / 15), new Heart(175, cumvas.height / 15), new Heart(250, cumvas.height / 15)];;
 let platform;
 let spike;
+let lastPlatformX
 
 const keys = {
     right:{
@@ -284,6 +285,51 @@ const keys = {
         pressed: false
     }
 }
+
+function getLastPlatformX() {
+    if (platform.length > 0) {
+        const lastPlatform = platform[platform.length - 1];
+        const lastPlatformX = lastPlatform.pos.x;
+        return lastPlatformX;
+    }
+    return 0;
+}
+
+function generateRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function createPlatform(x, y) {
+    platform.push(new Platform(x, y));
+}
+
+// Функция для создания шипа
+function createSpike(x, y) {
+    spike.push(new Spike(x, y));
+}
+
+// Функция для генерации платформы и шипа
+function generateRandomPlatformsAndSpikes() {
+    let distanceBetweenPlatforms = generateRandomNumber(100, 200);
+    let lastPlatformX = getLastPlatformX(); // Получение координаты x последней платформы
+
+    let platformX = lastPlatformX + distanceBetweenPlatforms + generateRandomNumber(100, 200);
+    let platformY = generateRandomNumber(cumvas.height - 150, cumvas.height - 100); // Выберите ваше значение Y для платформы
+
+    const spikesForPlatform = generateRandomNumber(1, 3); // Количество шипов для платформы
+
+    createPlatform(platformX, platformY); // Создание платформы
+
+    for (let i = 0; i < spikesForPlatform; i++) {
+        const spikeX = platformX + generateRandomNumber(50, 200);
+        const spikeY = platformY - 40; // Выберите ваше значение Y для шипа
+
+        createSpike(spikeX, spikeY); // Создание шипов
+    }
+}
+
+
 
 //отсчет до босс комнаты
 let scrolloff = 0;
@@ -313,6 +359,12 @@ function initialize() {
     ];
     player.pos = {x: 0, y: 1}
     player.vel = {x: 0, y: 1}
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 9259cf95e5e71b37b14ce3e6e09bcdb9ce1d4b15
     
 //отсчет до босс комнаты
 
@@ -330,11 +382,14 @@ function respawn(){
 //запуск loop
 
 function anim() {
-    if(scrolloff < 26000){
+    if(scrolloff < 56000){
     if(player.hp > 0){
+        lastPlatformX = getLastPlatformX();
+        console.log(lastPlatformX);
         // requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, cumvas.width, cumvas.height);    
+        ctx.fillRect(0, 0, cumvas.width, cumvas.height);
+
         genobj.forEach((genobj) =>{
             genobj.draw();
         })
@@ -348,15 +403,16 @@ function anim() {
         player.update();
 
 
+
         if(keys.left.pressed && (player.pos.x > 8000)){
             player.vel.x = 0;
         }
 
         if(keys.right.pressed && player.pos.x < 400){
-            player.vel.x = 5;
+            player.vel.x = 10;
         }
         else if(keys.left.pressed && player.pos.x > 100){
-            player.vel.x = -5;
+            player.vel.x = -10;
         }
         else {
             player.vel.x = 0
@@ -387,6 +443,7 @@ function anim() {
             genobj[0].pos.x+= 1
         }
 
+
         if(player.pos.y > cumvas.height){
             respawn();
             console.log(player.hp);
@@ -415,6 +472,10 @@ function anim() {
                 console.log(player.hp)
             }
         })
+
+        if (player.pos.x > lastPlatformX - cumvas.width) {
+            generateRandomPlatformsAndSpikes();
+        }
     }
     else {
         ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
