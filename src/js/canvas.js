@@ -14,6 +14,7 @@ import dwarf7 from '../image/dwarf_right6.png'
 import dwarf8 from '../image/dwarf_right7.png'
 import pivko from '../image/beer.png'
 import background_music from '../bgm.mp3'
+import gameover_video from '../go.mp4'
 
 //Начнем с того, что мы хотели использовать некоторые приколы canvas и подрубили эмуляцию сервера, 
 //но что-то пошло не так и у нас появилась проблема с модулями, так что радуемся жизни в одном файле
@@ -21,6 +22,8 @@ import background_music from '../bgm.mp3'
 const cumvas = document.querySelector('canvas');
 const ctx = cumvas.getContext('2d');
 const gravity = 0.5;
+
+var scores = [];
 
 ctx.imageSmoothingEnabled = false;
 
@@ -41,8 +44,6 @@ var main_sprites = [
 ]
 
 var music = new Audio(background_music);
-
-console.log(music.src)
 
 class Button {
     constructor(label, color, width, height, x, y, textcolor = "#000000", textsize = 24) {
@@ -107,7 +108,6 @@ class Player {
         this.frame = 0
         this.frames = main_sprites.map(x => createImage(x))
 
-        console.log(this.frames)
         this.image = this.frames[this.frame]
         this.width = this.image.width * 4
         this.height = this.image.height * 4
@@ -236,8 +236,9 @@ class Beer{
     }
     draw(){
         if(this.isUI){
-        ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height)
-        ctx.fillText(this.beerCounter, this.pos.x - this.pos.width, this.pos.y + this.pos.height/2)}
+        	ctx.drawImage(this.image, this.pos.x, this.pos.y, this.pos.width, this.pos.height)
+        	ctx.fillText(this.beerCounter, this.pos.x - this.pos.width, this.pos.y + this.pos.height/2)
+        }
         else
             ctx.drawImage(this.image, this.pos.x + this.pos.width, this.pos.y, this.pos.width, this.pos.height)
     }
@@ -311,18 +312,18 @@ function createSpike(x, y) {
 
 // Функция для генерации платформы и шипа
 function generateRandomPlatformsAndSpikes() {
-    let distanceBetweenPlatforms = generateRandomNumber(100, 200);
+    let distanceBetweenPlatforms = generateRandomNumber(100, 500);
     let lastPlatformX = getLastPlatformX(); // Получение координаты x последней платформы
 
-    let platformX = lastPlatformX + distanceBetweenPlatforms + generateRandomNumber(100, 200);
-    let platformY = generateRandomNumber(cumvas.height - 150, cumvas.height - 100); // Выберите ваше значение Y для платформы
+    let platformX = lastPlatformX + distanceBetweenPlatforms;
+    let platformY = generateRandomNumber(cumvas.height - 250, cumvas.height - 100); // Выберите ваше значение Y для платформы
 
-    const spikesForPlatform = generateRandomNumber(1, 3); // Количество шипов для платформы
+    const spikesForPlatform = generateRandomNumber(1, 1); // Количество шипов для платформы
 
     createPlatform(platformX, platformY); // Создание платформы
 
     for (let i = 0; i < spikesForPlatform; i++) {
-        const spikeX = platformX + generateRandomNumber(50, 200);
+        const spikeX = platformX + generateRandomNumber(50, 400);
         const spikeY = platformY - 40; // Выберите ваше значение Y для шипа
 
         createSpike(spikeX, spikeY); // Создание шипов
@@ -333,6 +334,8 @@ function generateRandomPlatformsAndSpikes() {
 
 //отсчет до босс комнаты
 let scrolloff = 0;
+
+var animid;
 
 function initialize() {
     enemy = new Enemy();
@@ -360,9 +363,6 @@ function initialize() {
     player.pos = {x: 0, y: 1}
     player.vel = {x: 0, y: 1}
 
-
-
-    
 //отсчет до босс комнаты
 
     scrolloff = 0;
@@ -372,17 +372,18 @@ function respawn(){
     PlatformImage = createImage(platforms);
 
     hp_i.pop();
-    player.hp--;
+    player.hp--
+
+    scores.push(scrolloff)
     
     initialize();
 }
 //запуск loop
 
 function anim() {
-    if(scrolloff < 56000){
+    if(true){
     if(player.hp > 0){
         lastPlatformX = getLastPlatformX();
-        console.log(lastPlatformX);
         // requestAnimationFrame(anim);
         ctx.fillStyle = 'white'
         ctx.fillRect(0, 0, cumvas.width, cumvas.height);
@@ -398,8 +399,6 @@ function anim() {
         })
         hp_i.forEach(hp_i => {hp_i.draw()})
         player.update();
-
-
 
         if(keys.left.pressed && (player.pos.x > 8000)){
             player.vel.x = 0;
@@ -424,6 +423,11 @@ function anim() {
                 spike.pos.x -= 10;
             })
 
+            
+			if(genobj[0].pos.x + cumvas.width <= 0) {
+				genobj[0].pos.x = 0
+			}
+
             genobj[0].pos.x -= 1
         }
         else if(keys.left.pressed){
@@ -436,6 +440,8 @@ function anim() {
                 spike.pos.x += 10;
             })
             }
+
+            console.log(genobj[0].pos.x + cumvas.width)
 
             genobj[0].pos.x+= 1
         }
@@ -473,12 +479,14 @@ function anim() {
         if (player.pos.x > lastPlatformX - cumvas.width) {
             generateRandomPlatformsAndSpikes();
         }
+
+        ctx.fillText(scrolloff, 1000, 60)
     }
     else {
         ctx.clearRect(0, 0, cumvas.width, cumvas.height); 
         ctx.fillStyle = 'white';
 
-        let w = 300
+        let w = 500
         let h = 100
         let xa = (cumvas.width - w) / 2
         let ya = (cumvas.height - h) / 2
@@ -487,15 +495,23 @@ function anim() {
 
         ctx.fillStyle = 'red'
 
-        let text = ctx.measureText("Game over")
+		let hiscoretext = "Game over (Max score: " + Math.max(...scores) + ")"
+
+        let text = ctx.measureText(hiscoretext)
 
         ctx.fillText(
-            "Game over",
-            xa + text.width / 1.5,
+            hiscoretext,
+            (xa + text.width) / 1.5,
             ya + (text.actualBoundingBoxAscent * 3)
         );
 
         music.pause();
+
+		clearInterval(animid)
+
+        document.getElementById("cumvas").outerHTML = "<video id='vid' src='" + gameover_video + "' controls='' autoplay fullscreen/>";
+        document.getElementById("vid").requestFullscreen();
+
     }
 }
 else{
@@ -523,7 +539,7 @@ let start_game = () => {
     game_started = true;
     player.update(); 
     
-    setInterval(anim, 1000 / 60);
+    animid = setInterval(anim, 1000 / 60);
 
     music.play();
 
@@ -531,7 +547,6 @@ let start_game = () => {
     switch(keyCode) {
         case 32:
         case 87:
-            console.log('вверх')
             if(can_jump) {
                 player.vel.y = -15;
                 can_jump = false;
@@ -539,16 +554,13 @@ let start_game = () => {
             break;
 
         case 83:
-            console.log('вниз')
             break;
 
         case 65:
-            console.log('влево')
             keys.left.pressed = true;
             break;
 
         case 68:
-            console.log('вправо')
             keys.right.pressed = true;
             break;
     }   
@@ -557,17 +569,13 @@ let start_game = () => {
     addEventListener('keyup', ({keyCode}) =>{
         switch(keyCode){
             case 87: 
-                console.log('Вверх действие завершено');
                 break;
             case 83:
-                console.log('down end');
                 break;
             case 65:
-                console.log('left end');
                 keys.left.pressed = false;
                 break;
             case 68:
-                console.log('right end');
                 keys.right.pressed = false;
                 break;
         }
@@ -595,8 +603,6 @@ startbtn.onmouseup = function(a) {
 };
 
 logo_img.addEventListener("load", () => {
-    console.log(logo_img)
-    
     ctx.drawImage(logo_img, (cumvas.width - logo_img.width) / 2, 0)
     
     startbtn.draw(ctx);
