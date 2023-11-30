@@ -296,6 +296,15 @@ function getLastPlatformX() {
     return 0;
 }
 
+function getLastPlatformWidth_Height(){
+    if(platform.length){
+        const lastPlatform = platform[platform.length - 1]
+        const lastPlatformHW = {height: lastPlatform.height, width: lastPlatform.width}
+        return lastPlatformHW
+    }
+    return 0;
+}
+
 function generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -312,10 +321,11 @@ function createSpike(x, y) {
 
 // Функция для генерации платформы и шипа
 function generateRandomPlatformsAndSpikes() {
-    let distanceBetweenPlatforms = generateRandomNumber(100, 500);
+    let distanceBetweenPlatforms = generateRandomNumber(50 , 500);
     let lastPlatformX = getLastPlatformX(); // Получение координаты x последней платформы
-
-    let platformX = lastPlatformX + distanceBetweenPlatforms;
+    console.log(getLastPlatformWidth_Height())
+    
+    let platformX = lastPlatformX + distanceBetweenPlatforms + 584;
     let platformY = generateRandomNumber(cumvas.height - 250, cumvas.height - 100); // Выберите ваше значение Y для платформы
 
     const spikesForPlatform = generateRandomNumber(1, 1); // Количество шипов для платформы
